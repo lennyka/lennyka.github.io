@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quoridor — Lenox Kasa</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">lk<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="index.html" class="active">Projects</a></li>
+      <li><a href="../index.html#academic">Academic</a></li>
+      <li><a href="../index.html#cv">CV</a></li>
+      <li><button class="theme-btn" onclick="toggleTheme()">☀</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="project-detail">
+
+    <a href="index.html" class="back-link">← Back to projects</a>
+
+    <h1>Quoridor</h1>
+
+    <div class="project-meta">
+      <span class="tag">Software Dev</span>
+      <span class="meta-date">2023</span>
+      <span class="chip">java</span>
+    </div>
+
+    <div class="detail-layout">
+
+      <div class="project-body">
+
+        <h2>Overview</h2>
+        <p>
+          A full implementation of the <strong>Quoridor</strong> board game in Java, developed as part of the
+          Software Development course at the University of Trieste.
+          Quoridor is a two-to-four player abstract strategy game where players move a pawn across a 9×9 grid
+          while placing walls to block opponents.
+        </p>
+
+        <h2>What was implemented</h2>
+        <ul>
+          <li><strong>Complete game logic</strong>: pawn movement rules, wall placement validation, path-existence checking (to ensure players can never be completely blocked), and win conditions.</li>
+          <li><strong>Player AI</strong>: a computer-controlled opponent using a heuristic-based strategy to decide between advancing and placing walls.</li>
+          <li><strong>Graphical UI</strong>: a visual board rendered in Java, with interactive click-to-move and wall placement.</li>
+          <li><strong>Multi-player support</strong>: both human vs. human and human vs. AI modes.</li>
+        </ul>
+
+        <h2>Technical notes</h2>
+        <p>
+          The path-existence check after each wall placement uses a BFS/DFS traversal to guarantee the game rules
+          (a player must always have a reachable path to the goal row) are respected.
+          Object-oriented design was prioritized, separating game state, rendering, and AI logic into distinct components.
+        </p>
+
+      </div>
+
+      <aside class="project-sidebar">
+        <h3>Details</h3>
+        <ul>
+          <li><span>Date</span><span>2023</span></li>
+          <li><span>Course</span><span>Software Development</span></li>
+          <li><span>GitHub</span><span><a href="https://github.com/lennyka/Quoridor" target="_blank" style="color:var(--accent2)">lennyka/Quoridor</a></span></li>
+        </ul>
+
+        <h3 style="margin-top:1.2rem">Stack</h3>
+        <div class="chip-row" style="margin-top:0.5rem">
+          <span class="chip">java</span>
+          <span class="chip">swing</span>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
+</footer>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    document.querySelector('.theme-btn').textContent = next === 'dark' ? '☀' : '☾';
+    localStorage.setItem('theme', next);
+  }
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+</script>
+</body>
+</html>

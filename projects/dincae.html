@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DINCAE — Lenox Kasa</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">lk<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="index.html" class="active">Projects</a></li>
+      <li><a href="../index.html#academic">Academic</a></li>
+      <li><a href="../index.html#cv">CV</a></li>
+      <li><button class="theme-btn" onclick="toggleTheme()">☀</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="project-detail">
+
+    <a href="index.html" class="back-link">← Back to projects</a>
+
+    <h1>DINCAE: A Convolutional Network for Oceanographic Data Reconstruction</h1>
+
+    <div class="project-meta">
+      <span class="tag">CNN</span>
+      <span class="tag">B.Sc. Thesis</span>
+      <span class="meta-date">Sep 2024</span>
+      <span class="chip">python</span>
+      <span class="chip">julia</span>
+      <span class="chip">tensorflow</span>
+      <span class="chip">CNN</span>
+    </div>
+
+    <div class="detail-layout">
+
+      <div class="project-body">
+
+        <h2>The problem</h2>
+        <p>
+          Sea Surface Temperature (SST) is fundamental for understanding the Earth's climate system.
+          Satellite observations provide global SST data, but are frequently incomplete due to cloud cover,
+          atmospheric interference, and sensor errors. The thesis analyzes DINCAE
+          (<strong>Data INterpolating Convolutional Auto-Encoder</strong>), an algorithm designed to reconstruct these missing observations.
+        </p>
+
+        <h2>DINCAE 1.0 (Python / TensorFlow)</h2>
+        <p>
+          The first version is a convolutional autoencoder that handles missing data directly in the training loop.
+          Missing values are represented with infinite variance (inverse = 0), effectively ignoring them during reconstruction.
+          The network outputs both the reconstructed temperature field and an <strong>expected error variance</strong> for each pixel —
+          making the reconstruction probabilistic rather than point-estimate only.
+        </p>
+        <ul>
+          <li>4 convolutional encoding layers (16 → 54 filters, 3×3 kernel) with max/average pooling</li>
+          <li>2 fully-connected bottleneck layers with 30% dropout</li>
+          <li>Skip connections between encoder and decoder to preserve fine-grained spatial information</li>
+          <li>Leaky ReLU activations throughout (avoids dead neurons)</li>
+          <li>Trained to minimize a negative log-likelihood loss assuming Gaussian output</li>
+        </ul>
+
+        <h2>DINCAE 2.0 (Julia)</h2>
+        <p>
+          The second version improves on v1.0 in several ways:
+        </p>
+        <ul>
+          <li><strong>Double autoencoder with a refinement step</strong>, reducing vanishing gradient issues in deep networks</li>
+          <li><strong>Sum-based skip connections</strong> instead of concatenation, halving output dimensionality and reducing overfitting risk</li>
+          <li><strong>Multivariate inputs</strong>: SST, wind velocity, and chlorophyll data are fused into a single model</li>
+          <li><strong>Non-grid data support</strong>: altimetric satellite data (collected along flight tracks) is handled via bilinear weight interpolation</li>
+          <li>Rewritten in <strong>Julia</strong> for faster execution and better numerical computing support</li>
+        </ul>
+
+        <h2>Practical experiments</h2>
+        <p>
+          DINCAE 2.0 was applied to SST data from the <strong>Strait of Gibraltar</strong> (2000–2020, 7,149 images at 149×106 px).
+          Five different missing-data masks were applied to a trained model:
+        </p>
+        <ul>
+          <li>10%, 25%, 50%, 90% uniform random masking</li>
+          <li>25% blob masking (contiguous region removed)</li>
+        </ul>
+        <p>
+          Results showed that MSE increases with missing-data percentage, but remains manageable even at 90%.
+          Strikingly, blob masking at 25% produced <strong>higher error than uniform masking at 90%</strong>,
+          because contiguous missing regions lack any nearby observations for the network to interpolate from.
+        </p>
+
+        <h2>Supervisor</h2>
+        <p>Prof. Luca Manzoni — University of Trieste</p>
+
+      </div>
+
+      <aside class="project-sidebar">
+        <h3>Details</h3>
+        <ul>
+          <li><span>Date</span><span>Sep 2024</span></li>
+          <li><span>Type</span><span>B.Sc. Thesis</span></li>
+          <li><span>Supervisor</span><span>Prof. Manzoni</span></li>
+          <li><span>Dataset</span><span>MODIS TERRA SST</span></li>
+          <li><span>Area</span><span>Strait of Gibraltar</span></li>
+        </ul>
+
+        <h3 style="margin-top:1.2rem">Stack</h3>
+        <div class="chip-row" style="margin-top:0.5rem">
+          <span class="chip">python</span>
+          <span class="chip">tensorflow</span>
+          <span class="chip">julia</span>
+          <span class="chip">numpy</span>
+          <span class="chip">matplotlib</span>
+          <span class="chip">colab</span>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
+</footer>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    document.querySelector('.theme-btn').textContent = next === 'dark' ? '☀' : '☾';
+    localStorage.setItem('theme', next);
+  }
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+</script>
+</body>
+</html>

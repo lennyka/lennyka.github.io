@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diffusion for Molecule Generation — Lenox Kasa</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">lk<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="index.html" class="active">Projects</a></li>
+      <li><a href="../index.html#academic">Academic</a></li>
+      <li><a href="../index.html#cv">CV</a></li>
+      <li><button class="theme-btn" onclick="toggleTheme()">☀</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="project-detail">
+
+    <a href="index.html" class="back-link">← Back to projects</a>
+
+    <h1>Diffusion for Molecule Generation</h1>
+
+    <div class="project-meta">
+      <span class="tag">Generative</span>
+      <span class="tag">GNN</span>
+      <span class="meta-date">2025</span>
+      <span class="chip">pytorch</span>
+      <span class="chip">torch_geometric</span>
+      <span class="chip">EGNN</span>
+      <span class="chip">RDKit</span>
+    </div>
+
+    <div class="detail-layout">
+
+      <div class="project-body">
+
+        <h2>Motivation</h2>
+        <p>
+          Molecule generation is a key challenge in drug discovery — finding new valid molecular structures efficiently
+          is expensive with traditional methods. Diffusion models have shown strong results in audio and image generation;
+          this project explores whether the same framework can produce valid 3D molecules.
+          The <strong>QM9</strong> dataset was chosen for its standard benchmark status and easy integration via <code>torch_geometric</code>.
+        </p>
+
+        <h2>Diffusion framework</h2>
+        <p>
+          The model follows a standard continuous diffusion setup, but applied to <strong>3D atomic coordinates</strong>:
+        </p>
+        <ul>
+          <li>
+            <strong>Forward process:</strong> Gaussian noise is progressively added to the 3D coordinates of each atom in the molecule,
+            according to a noise schedule. After T steps, the coordinates are approximately standard Gaussian.
+          </li>
+          <li>
+            <strong>Reverse process:</strong> Starting from random noise, the model iteratively denoises coordinates
+            back toward a valid molecular structure. At each step, a learned score network predicts the noise to subtract.
+          </li>
+        </ul>
+
+        <h2>Score model — EGNN</h2>
+        <p>
+          The score network is an <strong>Equivariant Graph Neural Network (EGNN)</strong>, which respects the 3D symmetries
+          of molecules (rotations and translations). The model is conditioned on:
+        </p>
+        <ul>
+          <li>Atom features (the 11-dimensional feature vector per atom from QM9)</li>
+          <li>Atom types (<code>data.z</code>)</li>
+          <li>Graph adjacency (bonds between atoms)</li>
+          <li>Time embedding (which diffusion step we are at)</li>
+        </ul>
+
+        <h2>Evaluation</h2>
+        <p>Generated molecules are evaluated on three criteria:</p>
+        <ul>
+          <li><strong>Validity:</strong> whether RDKit can parse and sanitize the molecule (<code>Chem.SanitizeMol</code>).</li>
+          <li><strong>Overlapping positions:</strong> whether atoms are placed too close together in 3D space.</li>
+          <li><strong>Realistic energy:</strong> whether the generated geometry has physically plausible energy.</li>
+        </ul>
+
+        <h2>Collaborators</h2>
+        <p>Project developed with Kjanija Mersimoski and Mattia Simonutti.</p>
+
+      </div>
+
+      <aside class="project-sidebar">
+        <h3>Details</h3>
+        <ul>
+          <li><span>Date</span><span>2025</span></li>
+          <li><span>Course</span><span>Probabilistic &amp; Deep ML</span></li>
+          <li><span>Dataset</span><span>QM9</span></li>
+          <li><span>GitHub</span><span>—</span></li>
+        </ul>
+
+        <h3 style="margin-top:1.2rem">Stack</h3>
+        <div class="chip-row" style="margin-top:0.5rem">
+          <span class="chip">pytorch</span>
+          <span class="chip">torch_geometric</span>
+          <span class="chip">EGNN</span>
+          <span class="chip">RDKit</span>
+          <span class="chip">numpy</span>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
+</footer>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    document.querySelector('.theme-btn').textContent = next === 'dark' ? '☀' : '☾';
+    localStorage.setItem('theme', next);
+  }
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+</script>
+</body>
+</html>
