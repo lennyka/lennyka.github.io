@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lenox Kasa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d; --bg2: #141414; --bg3: #1a1a1a;
+      --border: #252525; --text: #e8e8e8; --muted: #666;
+      --accent: #7c6aff; --accent2: #a78bfa;
+      --mono: 'JetBrains Mono', monospace; --sans: 'Inter', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.7; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2.5rem; background: rgba(13,13,13,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .logo { font-family: var(--mono); font-size: 1.05rem; color: var(--text); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+    nav ul a:hover { color: var(--text); }
+    section { max-width: 820px; margin: 0 auto; padding: 7rem 2rem 4rem; }
+    section:first-of-type { padding-top: 10rem; }
+    .hero-tag { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.2rem; }
+    h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 0.6rem; }
+    .hero-sub { font-size: 1.1rem; color: var(--muted); margin-bottom: 1.5rem; font-weight: 300; }
+    .hero-desc { color: #aaa; max-width: 540px; margin-bottom: 2rem; font-size: 0.95rem; }
+    .cta-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 0.55rem 1.3rem; border-radius: 6px; font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: all 0.2s; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent2); }
+    .btn-ghost { border: 1px solid var(--border); color: var(--muted); }
+    .btn-ghost:hover { border-color: #444; color: var(--text); }
+    .section-label { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 2.5rem; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0 0 2.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .card { background: var(--bg2); padding: 1.6rem; text-decoration: none; color: inherit; transition: background 0.2s; display: flex; flex-direction: column; gap: 0.5rem; }
+    .card:hover { background: var(--bg3); }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+    .card h4 { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+    .tag { font-family: var(--mono); font-size: 0.68rem; padding: 0.2rem 0.55rem; border-radius: 4px; background: #1e1a3a; color: var(--accent2); white-space: nowrap; }
+    .card p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+    .card-footer { display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; }
+    .chip { font-family: var(--mono); font-size: 0.65rem; padding: 0.15rem 0.45rem; border-radius: 3px; background: #1a1a1a; border: 1px solid var(--border); color: #888; }
+    .timeline { display: flex; flex-direction: column; }
+    .timeline-item { display: grid; grid-template-columns: 140px 1fr; gap: 1.5rem; padding: 1.8rem 0; border-bottom: 1px solid var(--border); }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-year { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); padding-top: 0.2rem; }
+    .timeline-content h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .timeline-content .inst { font-size: 0.82rem; color: var(--accent2); margin-bottom: 0.6rem; }
+    .timeline-content p { font-size: 0.83rem; color: var(--muted); }
+    .courses { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+    .cv-block { border: 1px solid var(--border); border-radius: 10px; padding: 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; background: var(--bg2); }
+    .cv-block p { font-size: 0.88rem; color: var(--muted); max-width: 460px; }
+    footer { text-align: center; padding: 3rem 2rem; font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--border); }
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.2rem; } nav ul { gap: 1.2rem; }
+      section { padding: 6rem 1.2rem 3rem; }
+      .timeline-item { grid-template-columns: 1fr; gap: 0.3rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#home" class="logo">lk<span>.</span></a>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#academic">Academic</a></li>
+    <li><a href="#cv">CV</a></li>
+  </ul>
+</nav>
+
+<section id="home">
+  <p class="hero-tag">// hello world</p>
+  <h1>Lenox Kasa</h1>
+  <p class="hero-sub">Data Science & AI · University of Trieste</p>
+  <p class="hero-desc">M.Sc. student in Data Science and Artificial Intelligence, focused on foundations of ML and AI. I work at the intersection of machine learning, applied mathematics, and software engineering.</p>
+  <div class="cta-links">
+    <a href="https://github.com/lennyka" target="_blank" class="btn btn-primary">GitHub</a>
+    <a href="https://linkedin.com/in/lenoxkasa" target="_blank" class="btn btn-ghost">LinkedIn</a>
+    <a href="#cv" class="btn btn-ghost">CV</a>
+  </div>
+</section>
+
+<section id="projects">
+  <p class="section-label">// work</p>
+  <h2>Projects</h2>
+  <hr class="divider" />
+  <div class="grid">
+
+    <!-- Con link GitHub: usa <a href="..." class="card"> -->
+    <a href="https://github.com/lennyka/YOUR_REPO" target="_blank" class="card">
+      <div class="card-top"><h4>Project Title</h4><span class="tag">ML</span></div>
+      <p>Short description of what this project does and what you learned from it.</p>
+      <div class="card-footer"><span class="chip">python</span><span class="chip">pytorch</span></div>
+    </a>
+
+    <a href="https://github.com/lennyka/YOUR_REPO" target="_blank" class="card">
+      <div class="card-top"><h4>Project Title</h4><span class="tag">NLP</span></div>
+      <p>Short description of what this project does and what you learned from it.</p>
+      <div class="card-footer"><span class="chip">transformers</span><span class="chip">huggingface</span></div>
+    </a>
+
+    <!-- Senza link GitHub: usa <div class="card"> -->
+    <div class="card">
+      <div class="card-top"><h4>Project Title</h4><span class="tag">HPC</span></div>
+      <p>Project not on GitHub. Describe it here — what problem did it solve and what was your approach?</p>
+      <div class="card-footer"><span class="chip">MPI</span><span class="chip">OpenMP</span><span class="chip">C</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><h4>Project Title</h4><span class="tag">Deep Learning</span></div>
+      <p>Project not on GitHub. Describe it here — what problem did it solve and what was your approach?</p>
+      <div class="card-footer"><span class="chip">pytorch</span><span class="chip">scikit-learn</span></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="academic">
+  <p class="section-label">// education</p>
+  <h2>Academic Background</h2>
+  <hr class="divider" />
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-year">2024 — present</div>
+      <div class="timeline-content">
+        <h3>M.Sc. Data Science & Artificial Intelligence</h3>
+        <p class="inst">University of Trieste</p>
+        <p>Focus on foundations of Machine Learning and Artificial Intelligence. Courses span probabilistic ML, deep learning, NLP, HPC, and safe AI.</p>
+        <div class="courses">
+          <span class="chip">Probabilistic & Deep ML</span>
+          <span class="chip">NLP</span>
+          <span class="chip">Safe & Verified AI</span>
+          <span class="chip">HPC & Cloud</span>
+          <span class="chip">MLOps</span>
+          <span class="chip">Statistical Methods</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-year">2021 — 2024</div>
+      <div class="timeline-content">
+        <h3>B.Sc. Artificial Intelligence & Data Analytics</h3>
+        <p class="inst">University of Trieste</p>
+        <p>Foundations in logic, mathematics, databases, and programming. Hands-on experience with ML pipelines, parallel computing, and data systems.</p>
+        <div class="courses">
+          <span class="chip">Algorithms & Data Structures</span>
+          <span class="chip">Intro to ML & AI</span>
+          <span class="chip">Optimization</span>
+          <span class="chip">Numerical Analysis</span>
+          <span class="chip">Databases</span>
+          <span class="chip">Parallel Programming</span>
+          <span class="chip">Statistical Inference</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="cv">
+  <p class="section-label">// resume</p>
+  <h2>Curriculum Vitae</h2>
+  <hr class="divider" />
+  <div class="cv-block">
+    <p>Download my full CV for a detailed overview of my academic background, projects, and skills.</p>
+    <a href="/cv.pdf" class="btn btn-primary" download>Download CV</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Lenox Kasa — <a href="https://github.com/lennyka" style="color: var(--accent); text-decoration: none;">github.com/lennyka</a></p>
+</footer>
+
+</body>
+</html>
