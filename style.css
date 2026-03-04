@@ -92,6 +92,15 @@ nav {
   align-items: center;
   gap: 0.2rem;
   list-style: none;
+  /* Explicit desktop resets so mobile overrides don't leak up */
+  position: static;
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+  background: none;
+  border: none;
+  padding: 0;
+  flex-direction: row;
 }
 .nav-links a {
   color: var(--text2);

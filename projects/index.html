@@ -145,6 +145,15 @@
 </footer>
 
 <script>
+  // Filter
+  function filterProjects(tag, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.project-card-standalone').forEach(card => {
+      const tags = card.getAttribute('data-tags') || '';
+      card.style.display = (tag === 'all' || tags.includes(tag)) ? '' : 'none';
+    });
+  }
   // Theme
   function toggleTheme() {
     const html = document.documentElement;
