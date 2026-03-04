@@ -122,6 +122,35 @@ nav {
 }
 .theme-btn:hover { color: var(--text); border-color: var(--border2); background: var(--border); }
 
+/* Hamburger button — hidden on desktop */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  margin-left: 0.5rem;
+  z-index: 210;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text2);
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.25s, background 0.2s;
+  transform-origin: center;
+}
+.nav-hamburger:hover span { background: var(--text); }
+
+/* Animated X state */
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
 /* ---------- PAGE WRAPPER ---------- */
 .page {
   max-width: 900px;
@@ -516,6 +545,7 @@ footer a:hover { color: var(--accent); }
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 680px) {
+  /* --- Layout --- */
   .timeline-item { grid-template-columns: 1fr; gap: 0.3rem; }
   .project-grid, .projects-full-grid { grid-template-columns: 1fr; }
   .transcript-grid { grid-template-columns: 1fr; }
@@ -524,4 +554,47 @@ footer a:hover { color: var(--accent); }
   .project-sidebar { position: static; }
   section { padding: 3.5rem 0 2rem; }
   section:first-of-type { padding-top: calc(var(--nav-h) + 3rem); }
+
+  /* --- Responsive Nav --- */
+  .nav-hamburger { display: flex; }
+
+  /* Nav slides down from top when open */
+  .nav-links {
+    position: fixed;
+    top: var(--nav-h);
+    left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 1rem 1rem;
+    /* hidden by default */
+    transform: translateY(-110%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1), opacity 0.28s;
+    z-index: 190;
+  }
+  .nav-links.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .nav-links li { width: 100%; }
+  .nav-links a {
+    display: block;
+    padding: 0.7rem 0.6rem;
+    font-size: 0.88rem;
+    border-radius: 6px;
+  }
+  /* Theme button sits inside the mobile menu */
+  .nav-links .theme-btn {
+    width: 100%;
+    text-align: left;
+    margin: 0.3rem 0 0;
+    padding: 0.7rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.88rem;
+  }
 }

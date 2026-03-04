@@ -18,6 +18,9 @@
       <li><a href="../index.html#cv">CV</a></li>
       <li><button class="theme-btn" onclick="toggleTheme()">☀</button></li>
     </ul>
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -142,28 +145,38 @@
 </footer>
 
 <script>
-  function filterProjects(tag, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.project-card-standalone').forEach(card => {
-      const tags = card.getAttribute('data-tags') || '';
-      card.style.display = (tag === 'all' || tags.includes(tag)) ? '' : 'none';
-    });
-  }
+  // Theme
   function toggleTheme() {
     const html = document.documentElement;
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
-    document.querySelector('.theme-btn').textContent = next === 'dark' ? '☀' : '☾';
+    const icon = next === 'dark' ? '☀' : '☾';
+    document.querySelectorAll('.theme-btn').forEach(b => b.textContent = icon);
     localStorage.setItem('theme', next);
   }
-  const saved = localStorage.getItem('theme');
-  if (saved) {
-    document.documentElement.setAttribute('data-theme', saved);
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('.theme-btn').textContent = saved === 'dark' ? '☀' : '☾';
-    });
+  // Hamburger
+  function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    const btn = document.getElementById('hamburger');
+    links.classList.toggle('open');
+    btn.classList.toggle('open');
   }
+  // Close menu when a link is clicked
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.remove('open');
+        document.getElementById('hamburger').classList.remove('open');
+      });
+    });
+    // Restore theme
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+      document.documentElement.setAttribute('data-theme', saved);
+      const icon = saved === 'dark' ? '☀' : '☾';
+      document.querySelectorAll('.theme-btn').forEach(b => b.textContent = icon);
+    }
+  });
 </script>
 </body>
 </html>

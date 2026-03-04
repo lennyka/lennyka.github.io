@@ -18,6 +18,9 @@
       <li><a href="#cv">CV</a></li>
       <li><button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀</button></li>
     </ul>
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -83,7 +86,7 @@
           <h4>High-Performance 2D Heat Diffusion Solver</h4>
           <div class="tag-row"><span class="tag">HPC</span></div>
         </div>
-        <p class="card-date">Sep 2025</p>
+        <p class="card-date">March 2026</p>
         <p class="card-desc">Hybrid MPI + OpenMP parallel solver for a 2D five-point stencil heat equation with domain decomposition, halo exchanges, and scaling analysis on Leonardo and Orfeo clusters.</p>
         <div class="chip-row">
           <span class="chip">MPI</span>
@@ -128,7 +131,7 @@
           <h4>Quoridor</h4>
           <div class="tag-row"><span class="tag">Software Dev</span></div>
         </div>
-        <p class="card-date">2026</p>
+        <p class="card-date">Feb 2026</p>
         <p class="card-desc">Full Java implementation of the Quoridor board game, covering game logic, player AI, and UI, developed as part of the Software Development course.</p>
         <div class="chip-row">
           <span class="chip">java</span>
@@ -257,20 +260,38 @@
 </footer>
 
 <script>
+  // Theme
   function toggleTheme() {
     const html = document.documentElement;
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
-    document.querySelector('.theme-btn').textContent = next === 'dark' ? '☀' : '☾';
+    const icon = next === 'dark' ? '☀' : '☾';
+    document.querySelectorAll('.theme-btn').forEach(b => b.textContent = icon);
     localStorage.setItem('theme', next);
   }
-  const saved = localStorage.getItem('theme');
-  if (saved) {
-    document.documentElement.setAttribute('data-theme', saved);
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('.theme-btn').textContent = saved === 'dark' ? '☀' : '☾';
-    });
+  // Hamburger
+  function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    const btn = document.getElementById('hamburger');
+    links.classList.toggle('open');
+    btn.classList.toggle('open');
   }
+  // Close menu when a link is clicked
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.remove('open');
+        document.getElementById('hamburger').classList.remove('open');
+      });
+    });
+    // Restore theme
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+      document.documentElement.setAttribute('data-theme', saved);
+      const icon = saved === 'dark' ? '☀' : '☾';
+      document.querySelectorAll('.theme-btn').forEach(b => b.textContent = icon);
+    }
+  });
 </script>
 </body>
 </html>
