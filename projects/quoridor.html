@@ -116,11 +116,12 @@
     });
     // Restore theme
     const saved = localStorage.getItem('theme');
-    if (saved) {
-      document.documentElement.setAttribute('data-theme', saved);
-      const icon = saved === 'dark' ? '☀' : '☾';
+    const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+    document.addEventListener('DOMContentLoaded', () => {
+      const icon = theme === 'dark' ? '☀' : '☾';
       document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
-    }
+    });
   });
 </script>
 
