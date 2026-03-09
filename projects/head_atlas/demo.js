@@ -42,6 +42,9 @@ function hexToRgba(hex, a) {
 /* ══════════════════════════════════════════
    PLOT
 ══════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   PLOT
+══════════════════════════════════════════ */
 function renderPlot() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   const bg = isDark ? '#0b0b0b' : '#f5f5f3';
@@ -57,7 +60,26 @@ function renderPlot() {
     byModel[m].idx.push(i);
   });
 
-  const traces = Object.entries(byModel).map(([mName, g]) => ({
+  // 1. Create dummy traces for legend (one per model, with a single invisible point)
+  const dummyTraces = Object.keys(byModel).map(mName => ({
+    x: [null], 
+    y: [null],
+    mode: 'markers',
+    type: 'scatter',
+    name: MODEL_LABEL[mName] || mName,
+    legendgroup: mName, 
+    showlegend: true,   
+    hoverinfo: 'skip',
+    marker: {
+      size: 8, 
+      color: hexToRgba(MODEL_COLOR[mName] || '#999', 0.80),
+      symbol: MODEL_SHAPE[mName] || 'circle',
+      line: { width: 0.5, color: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.1)' }
+    }
+  }));
+
+  // 2. Real traces with actual data points, but hidden from legend
+  const dataTraces = Object.entries(byModel).map(([mName, g]) => ({
     x: g.x, y: g.y,
     mode: 'markers',
     type: 'scatter',
@@ -65,14 +87,18 @@ function renderPlot() {
     text: g.text,
     customdata: g.idx,
     hoverinfo: 'text',
+    legendgroup: mName, 
+    showlegend: false,  
     marker: {
       size: 3,
       color: hexToRgba(MODEL_COLOR[mName] || '#999', 0.80),
       symbol: MODEL_SHAPE[mName] || 'circle',
       line: { width: 0.5, color: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.1)' }
-    },
-    showlegend: true,
+    }
   }));
+
+  // 3. Combine dummy and real traces (dummy first to ensure legend visibility)
+  const traces = [...dummyTraces, ...dataTraces];
 
   const layout = {
     paper_bgcolor: bg, plot_bgcolor: bg,
@@ -122,21 +148,32 @@ function applyFilter() {
     fuseSet = new Set(res.map(r => r.refIndex));
   }
 
-  const allColors = plotEl.data.map(trace =>
-    (trace.customdata || []).map(idx => {
+  const colorsToUpdate = [];
+  const traceIndices = [];
+
+  plotEl.data.forEach((trace, index) => {
+    if (!trace.customdata || trace.customdata.length === 0) return;
+
+    const traceColors = trace.customdata.map(idx => {
       const d = ALL_DATA[idx];
       const matchSearch = !searchVal ||
         (fuseSet && fuseSet.has(idx)) ||
         (d.vocab && d.vocab.some(w => w.toLowerCase() === searchVal.toLowerCase()));
       const matchCat = !catVal || d.category === catVal;
+      
       if (matchSearch && matchCat) {
         return hexToRgba(MODEL_COLOR[d.model] || '#999', 0.82);
       }
       return dimColor;
-    })
-  );
+    });
 
-  Plotly.restyle('demoPlot', { 'marker.color': allColors });
+    colorsToUpdate.push(traceColors);
+    traceIndices.push(index); 
+  });
+
+  if (traceIndices.length > 0) {
+    Plotly.restyle('demoPlot', { 'marker.color': colorsToUpdate }, traceIndices);
+  }
 }
 
 /* ══════════════════════════════════════════
@@ -289,7 +326,7 @@ function initDemo() {
   // Fuse search index
   _fuse = new Fuse(ALL_DATA, {
     keys: ['title','category','model','id'],
-    threshold: 0.3,
+    threshold: 0,
     ignoreLocation: true,
   });
 
