@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Head Atlas — Lenox Kasa</title>
+
+    <script>
+        (function() {
+            var saved = localStorage.getItem('theme');
+            var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
     <link rel="stylesheet" href="../../style.css" />
     <link rel="stylesheet" href="demo.css" />
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
@@ -259,10 +268,12 @@
             localStorage.setItem('theme', next);
             if (typeof onThemeChange === 'function') onThemeChange();
         }
+
         function toggleMenu() {
             document.querySelector('.nav-links').classList.toggle('open');
             document.getElementById('hamburger').classList.toggle('open');
         }
+
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.nav-links a').forEach(a =>
                 a.addEventListener('click', () => {
@@ -277,7 +288,7 @@
             document.querySelectorAll('.theme-btn,.theme-fab').forEach(b => b.textContent = icon);
 
             // Init demo after a small tick so Plotly can settle
-            setTimeout(initDemo, 60);
+            initDemo();
         });
     </script>
     <script src="demo.js"></script>

@@ -1,300 +1,330 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lenox Kasa</title>
+
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo">lk<span>.</span></a>
-    <ul class="nav-links">
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="projects/index.html">Projects</a></li>
-      <li><a href="#academic">Academic</a></li>
-      <li><a href="#cv">CV</a></li>
-      <li><button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀</button></li>
-    </ul>
-    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">lk<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="projects/index.html">Projects</a></li>
+        <li><a href="#academic">Academic</a></li>
+        <li><a href="#cv">CV</a></li>
+        <li><button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀</button></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- HERO -->
+    <section class="hero">
+      <p class="hero-tag">// hello world</p>
+      <h1>Lenox Kasa</h1>
+      <p class="hero-sub">Data Science &amp; AI &middot; University of Trieste</p>
+      <p class="hero-desc">
+        M.Sc. student in Data Science and Artificial Intelligence, focused on foundations of ML and AI.
+        I work at the intersection of deep learning, graph neural networks, and scientific computing.
+      </p>
+      <div class="cta-links">
+        <a href="https://github.com/lennyka" target="_blank" class="btn btn-primary">GitHub</a>
+        <a href="https://www.linkedin.com/in/lenox-k/" target="_blank" class="btn btn-ghost">LinkedIn</a>
+        <a href="#cv" class="btn btn-ghost">CV</a>
+      </div>
+    </section>
+
+    <!-- FEATURED PROJECTS -->
+    <section id="projects">
+      <p class="section-eyebrow">// work</p>
+      <h2 class="section-title">Featured Projects</h2>
+      <hr class="section-divider" />
+
+      <div class="projects-full-grid">
+
+        <a href="projects/head_atlas/index.html" class="project-card-standalone">
+          <div class="card-header">
+            <h4>Head Atlas</h4>
+            <div class="tag-row"><span class="tag">NLP</span><span class="tag">Research</span></div>
+          </div>
+          <p class="card-date">Feb 2026</p>
+          <p class="card-desc">Extending the HeadPursuit interpretability method to any HuggingFace model, investigating
+            attention head specialization metrics and building new visualizations.</p>
+          <div class="chip-row">
+            <span class="chip">transformers</span>
+            <span class="chip">pytorch</span>
+            <span class="chip">huggingface</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </a>
+
+        <a href="projects/alzheimer.html" class="project-card-standalone">
+          <div class="card-header">
+            <h4>Alzheimer's Classification via GAT + LSTM</h4>
+            <div class="tag-row"><span class="tag">GNN</span><span class="tag">Deep Learning</span></div>
+          </div>
+          <p class="card-date">Jul 2025</p>
+          <p class="card-desc">Hybrid pipeline converting MRI slices into superpixel graphs, processed with a Graph
+            Attention Network, then modeled sequentially with an LSTM for severity classification.</p>
+          <div class="chip-row">
+            <span class="chip">pytorch</span>
+            <span class="chip">torch_geometric</span>
+            <span class="chip">GAT</span>
+            <span class="chip">LSTM</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </a>
+
+        <a href="projects/hpc.html" class="project-card-standalone">
+          <div class="card-header">
+            <h4>High-Performance 2D Heat Diffusion Solver</h4>
+            <div class="tag-row"><span class="tag">HPC</span></div>
+          </div>
+          <p class="card-date">March 2026</p>
+          <p class="card-desc">Hybrid MPI + OpenMP parallel solver for a 2D five-point stencil heat equation with domain
+            decomposition, halo exchanges, and scaling analysis on Leonardo and Orfeo clusters.</p>
+          <div class="chip-row">
+            <span class="chip">MPI</span>
+            <span class="chip">OpenMP</span>
+            <span class="chip">C</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </a>
+
+        <a href="projects/diffusion.html" class="project-card-standalone">
+          <div class="card-header">
+            <h4>Diffusion for Molecule Generation</h4>
+            <div class="tag-row"><span class="tag">Generative</span><span class="tag">GNN</span></div>
+          </div>
+          <p class="card-date">2025</p>
+          <p class="card-desc">Diffusion model for 3D molecule generation on QM9. Gaussian noise is applied to atom
+            coordinates; the reverse process uses an EGNN score model conditioned on atom features.</p>
+          <div class="chip-row">
+            <span class="chip">pytorch</span>
+            <span class="chip">EGNN</span>
+            <span class="chip">RDKit</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </a>
+
+        <a href="projects/dincae.html" class="project-card-standalone">
+          <div class="card-header">
+            <h4>DINCAE — Oceanographic Reconstruction</h4>
+            <div class="tag-row"><span class="tag">CNN</span><span class="tag">Thesis</span></div>
+          </div>
+          <p class="card-date">Sep 2024 &mdash; B.Sc. Thesis</p>
+          <p class="card-desc">Analysis and practical study of DINCAE, a convolutional autoencoder for reconstructing
+            missing satellite sea-surface temperature data. Compared v1.0 (Python) and v2.0 (Julia).</p>
+          <div class="chip-row">
+            <span class="chip">python</span>
+            <span class="chip">julia</span>
+            <span class="chip">tensorflow</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </a>
+
+        <a href="projects/quoridor.html" class="project-card-standalone">
+          <div class="card-header">
+            <h4>Quoridor</h4>
+            <div class="tag-row"><span class="tag">Software Dev</span></div>
+          </div>
+          <p class="card-date">Feb 2026</p>
+          <p class="card-desc">Full Java implementation of the Quoridor board game, covering game logic, player AI, and
+            UI, developed as part of the Software Development course.</p>
+          <div class="chip-row">
+            <span class="chip">java</span>
+          </div>
+          <span class="card-arrow">→</span>
+        </a>
+
+      </div>
+
+      <div style="text-align:center;margin-top:1.8rem">
+        <a href="projects/index.html" class="btn btn-ghost">View all projects →</a>
+      </div>
+    </section>
+
+    <!-- ACADEMIC -->
+    <section id="academic">
+      <p class="section-eyebrow">// education</p>
+      <h2 class="section-title">Academic Background</h2>
+      <hr class="section-divider" />
+
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-year">2024 &mdash;<br>present</div>
+          <div class="timeline-content">
+            <h3>M.Sc. Data Science &amp; Artificial Intelligence</h3>
+            <p class="inst">University of Trieste</p>
+            <p>Focus on foundations of Machine Learning and Artificial Intelligence. Projects with <code>pytorch</code>,
+              <code>torch_geometric</code>, <code>stable_baselines3</code>, <code>OpenMPI</code>,
+              <code>streamlit</code>.</p>
+            <div class="course-chips">
+              <span class="chip">Probabilistic &amp; Deep ML</span>
+              <span class="chip">NLP</span>
+              <span class="chip">Software Development Methods</span>
+              <span class="chip">HPC &amp; Cloud</span>
+              <span class="chip">MLOps</span>
+              <span class="chip">Statistical Methods</span>
+              <span class="chip">Algorithmic Data Mining</span>
+              <span class="chip">Ethics &amp; Law of AI</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year">2021 &mdash;<br>2024</div>
+          <div class="timeline-content">
+            <h3>B.Sc. Artificial Intelligence &amp; Data Analytics</h3>
+            <p class="inst">University of Trieste</p>
+            <p>Foundations in mathematics, databases, and programming. Thesis on DINCAE, a convolutional autoencoder for
+              oceanographic data reconstruction.</p>
+            <div class="course-chips">
+              <span class="chip">Algorithms &amp; Data Structures</span>
+              <span class="chip">Intro to ML &amp; AI</span>
+              <span class="chip">Optimization</span>
+              <span class="chip">Numerical Analysis</span>
+              <span class="chip">Databases</span>
+              <span class="chip">Parallel Programming</span>
+              <span class="chip">Statistical Inference</span>
+              <span class="chip">Health Data Analytics</span>
+              <span class="chip">Dynamic Systems</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-year">2016 &mdash;<br>2021</div>
+          <div class="timeline-content">
+            <h3>High School - Telecommunications &amp; Computer Science </h3>
+            <p>Graduated with 100/100. This period provided the hardware-level understanding and programming skills (C,
+              Embedded Systems, Java, Android) that grounds my current work.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <details class="transcript-accordion">
+        <summary>View Full Transcript</summary>
+        <div class="transcript-grid">
+          <div class="transcript-col">
+            <h4>M.Sc. Courses</h4>
+            <ul>
+              <li>Natural Language Processing</li>
+              <li>Probabilistic and Deep Machine Learning</li>
+              <li>Software Development Methods</li>
+              <li>High Performance and Cloud Computing</li>
+              <li>Simulation Intelligence and Learning for Autonomous Systems</li>
+              <li>Statistical Methods</li>
+              <li>Machine Learning Operations</li>
+              <li>Algorithmic Data Mining</li>
+              <li>Ethics and Law of Data and Artificial Intelligence</li>
+            </ul>
+          </div>
+          <div class="transcript-col">
+            <h4>B.Sc. Courses</h4>
+            <ul>
+              <li>Statistical Physics and Information Theory</li>
+              <li>Statistical Inference</li>
+              <li>Optimization Algorithms</li>
+              <li>Dynamic Systems</li>
+              <li>Numerical Analysis</li>
+              <li>Algorithms and Data Structures</li>
+              <li>Statistical Models</li>
+              <li>Intro to Machine Learning</li>
+              <li>Intro to Artificial Intelligence</li>
+              <li>Health Data Analytics</li>
+              <li>Computability, Complexity &amp; Logic</li>
+              <li>Methods and Mathematical Models for AI</li>
+              <li>Databases and Data Analytics</li>
+              <li>Advanced and Parallel Programming</li>
+              <li>Programming and Computer Architectures</li>
+              <li>Probability Theory</li>
+              <li>Mathematical Analysis 1 &amp; 2</li>
+              <li>Intro to Physics</li>
+              <li>Geometry</li>
+              <li>Ethical, Social and Legal Aspects of AI</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+    </section>
+
+    <!-- CV -->
+    <section id="cv">
+      <p class="section-eyebrow">// resume</p>
+      <h2 class="section-title">Curriculum Vitae</h2>
+      <hr class="section-divider" />
+      <div class="cv-block">
+        <p>Full overview of my academic background, technical skills, and projects.</p>
+        <a href="cv/cv.pdf" target="_blank" rel="noopener" class="btn btn-primary">Open CV ↗</a>
+      </div>
+    </section>
+
   </div>
-</nav>
 
-<div class="page">
+  <footer>
+    <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
+  </footer>
 
-  <!-- HERO -->
-  <section class="hero">
-    <p class="hero-tag">// hello world</p>
-    <h1>Lenox Kasa</h1>
-    <p class="hero-sub">Data Science &amp; AI &middot; University of Trieste</p>
-    <p class="hero-desc">
-      M.Sc. student in Data Science and Artificial Intelligence, focused on foundations of ML and AI.
-      I work at the intersection of deep learning, graph neural networks, and scientific computing.
-    </p>
-    <div class="cta-links">
-      <a href="https://github.com/lennyka" target="_blank" class="btn btn-primary">GitHub</a>
-      <a href="https://www.linkedin.com/in/lenox-k/" target="_blank" class="btn btn-ghost">LinkedIn</a>
-      <a href="#cv" class="btn btn-ghost">CV</a>
-    </div>
-  </section>
-
-  <!-- FEATURED PROJECTS -->
-  <section id="projects">
-    <p class="section-eyebrow">// work</p>
-    <h2 class="section-title">Featured Projects</h2>
-    <hr class="section-divider" />
-
-    <div class="projects-full-grid">
-
-      <a href="projects/head_atlas/index.html" class="project-card-standalone">
-        <div class="card-header">
-          <h4>Head Atlas</h4>
-          <div class="tag-row"><span class="tag">NLP</span><span class="tag">Research</span></div>
-        </div>
-        <p class="card-date">Feb 2026</p>
-        <p class="card-desc">Extending the HeadPursuit interpretability method to any HuggingFace model, investigating attention head specialization metrics and building new visualizations.</p>
-        <div class="chip-row">
-          <span class="chip">transformers</span>
-          <span class="chip">pytorch</span>
-          <span class="chip">huggingface</span>
-        </div>
-        <span class="card-arrow">→</span>
-      </a>
-
-      <a href="projects/alzheimer.html" class="project-card-standalone">
-        <div class="card-header">
-          <h4>Alzheimer's Classification via GAT + LSTM</h4>
-          <div class="tag-row"><span class="tag">GNN</span><span class="tag">Deep Learning</span></div>
-        </div>
-        <p class="card-date">Jul 2025</p>
-        <p class="card-desc">Hybrid pipeline converting MRI slices into superpixel graphs, processed with a Graph Attention Network, then modeled sequentially with an LSTM for severity classification.</p>
-        <div class="chip-row">
-          <span class="chip">pytorch</span>
-          <span class="chip">torch_geometric</span>
-          <span class="chip">GAT</span>
-          <span class="chip">LSTM</span>
-        </div>
-        <span class="card-arrow">→</span>
-      </a>
-
-      <a href="projects/hpc.html" class="project-card-standalone">
-        <div class="card-header">
-          <h4>High-Performance 2D Heat Diffusion Solver</h4>
-          <div class="tag-row"><span class="tag">HPC</span></div>
-        </div>
-        <p class="card-date">March 2026</p>
-        <p class="card-desc">Hybrid MPI + OpenMP parallel solver for a 2D five-point stencil heat equation with domain decomposition, halo exchanges, and scaling analysis on Leonardo and Orfeo clusters.</p>
-        <div class="chip-row">
-          <span class="chip">MPI</span>
-          <span class="chip">OpenMP</span>
-          <span class="chip">C</span>
-        </div>
-        <span class="card-arrow">→</span>
-      </a>
-
-      <a href="projects/diffusion.html" class="project-card-standalone">
-        <div class="card-header">
-          <h4>Diffusion for Molecule Generation</h4>
-          <div class="tag-row"><span class="tag">Generative</span><span class="tag">GNN</span></div>
-        </div>
-        <p class="card-date">2025</p>
-        <p class="card-desc">Diffusion model for 3D molecule generation on QM9. Gaussian noise is applied to atom coordinates; the reverse process uses an EGNN score model conditioned on atom features.</p>
-        <div class="chip-row">
-          <span class="chip">pytorch</span>
-          <span class="chip">EGNN</span>
-          <span class="chip">RDKit</span>
-        </div>
-        <span class="card-arrow">→</span>
-      </a>
-
-      <a href="projects/dincae.html" class="project-card-standalone">
-        <div class="card-header">
-          <h4>DINCAE — Oceanographic Reconstruction</h4>
-          <div class="tag-row"><span class="tag">CNN</span><span class="tag">Thesis</span></div>
-        </div>
-        <p class="card-date">Sep 2024 &mdash; B.Sc. Thesis</p>
-        <p class="card-desc">Analysis and practical study of DINCAE, a convolutional autoencoder for reconstructing missing satellite sea-surface temperature data. Compared v1.0 (Python) and v2.0 (Julia).</p>
-        <div class="chip-row">
-          <span class="chip">python</span>
-          <span class="chip">julia</span>
-          <span class="chip">tensorflow</span>
-        </div>
-        <span class="card-arrow">→</span>
-      </a>
-
-      <a href="projects/quoridor.html" class="project-card-standalone">
-        <div class="card-header">
-          <h4>Quoridor</h4>
-          <div class="tag-row"><span class="tag">Software Dev</span></div>
-        </div>
-        <p class="card-date">Feb 2026</p>
-        <p class="card-desc">Full Java implementation of the Quoridor board game, covering game logic, player AI, and UI, developed as part of the Software Development course.</p>
-        <div class="chip-row">
-          <span class="chip">java</span>
-        </div>
-        <span class="card-arrow">→</span>
-      </a>
-
-    </div>
-
-    <div style="text-align:center;margin-top:1.8rem">
-      <a href="projects/index.html" class="btn btn-ghost">View all projects →</a>
-    </div>
-  </section>
-
-  <!-- ACADEMIC -->
-  <section id="academic">
-    <p class="section-eyebrow">// education</p>
-    <h2 class="section-title">Academic Background</h2>
-    <hr class="section-divider" />
-
-    <div class="timeline">
-
-      <div class="timeline-item">
-        <div class="timeline-year">2024 &mdash;<br>present</div>
-        <div class="timeline-content">
-          <h3>M.Sc. Data Science &amp; Artificial Intelligence</h3>
-          <p class="inst">University of Trieste</p>
-          <p>Focus on foundations of Machine Learning and Artificial Intelligence. Projects with <code>pytorch</code>, <code>torch_geometric</code>, <code>stable_baselines3</code>, <code>OpenMPI</code>, <code>streamlit</code>.</p>
-          <div class="course-chips">
-            <span class="chip">Probabilistic &amp; Deep ML</span>
-            <span class="chip">NLP</span>
-            <span class="chip">Software Development Methods</span>
-            <span class="chip">HPC &amp; Cloud</span>
-            <span class="chip">MLOps</span>
-            <span class="chip">Statistical Methods</span>
-            <span class="chip">Algorithmic Data Mining</span>
-            <span class="chip">Ethics &amp; Law of AI</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-year">2021 &mdash;<br>2024</div>
-        <div class="timeline-content">
-          <h3>B.Sc. Artificial Intelligence &amp; Data Analytics</h3>
-          <p class="inst">University of Trieste</p>
-          <p>Foundations in mathematics, databases, and programming. Thesis on DINCAE, a convolutional autoencoder for oceanographic data reconstruction.</p>
-          <div class="course-chips">
-            <span class="chip">Algorithms &amp; Data Structures</span>
-            <span class="chip">Intro to ML &amp; AI</span>
-            <span class="chip">Optimization</span>
-            <span class="chip">Numerical Analysis</span>
-            <span class="chip">Databases</span>
-            <span class="chip">Parallel Programming</span>
-            <span class="chip">Statistical Inference</span>
-            <span class="chip">Health Data Analytics</span>
-            <span class="chip">Dynamic Systems</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <details class="transcript-accordion">
-      <summary>View Full Transcript</summary>
-      <div class="transcript-grid">
-        <div class="transcript-col">
-          <h4>M.Sc. Courses</h4>
-          <ul>
-            <li>Natural Language Processing</li>
-            <li>Probabilistic and Deep Machine Learning</li>
-            <li>Software Development Methods</li>
-            <li>High Performance and Cloud Computing</li>
-            <li>Simulation Intelligence and Learning for Autonomous Systems</li>
-            <li>Statistical Methods</li>
-            <li>Machine Learning Operations</li>
-            <li>Algorithmic Data Mining</li>
-            <li>Ethics and Law of Data and Artificial Intelligence</li>
-          </ul>
-        </div>
-        <div class="transcript-col">
-          <h4>B.Sc. Courses</h4>
-          <ul>
-            <li>Statistical Physics and Information Theory</li>
-            <li>Statistical Inference</li>
-            <li>Optimization Algorithms</li>
-            <li>Dynamic Systems</li>
-            <li>Numerical Analysis</li>
-            <li>Algorithms and Data Structures</li>
-            <li>Statistical Models</li>
-            <li>Intro to Machine Learning</li>
-            <li>Intro to Artificial Intelligence</li>
-            <li>Health Data Analytics</li>
-            <li>Computability, Complexity &amp; Logic</li>
-            <li>Methods and Mathematical Models for AI</li>
-            <li>Databases and Data Analytics</li>
-            <li>Advanced and Parallel Programming</li>
-            <li>Programming and Computer Architectures</li>
-            <li>Probability Theory</li>
-            <li>Mathematical Analysis 1 &amp; 2</li>
-            <li>Intro to Physics</li>
-            <li>Geometry</li>
-            <li>Ethical, Social and Legal Aspects of AI</li>
-          </ul>
-        </div>
-      </div>
-    </details>
-
-  </section>
-
-  <!-- CV -->
-  <section id="cv">
-    <p class="section-eyebrow">// resume</p>
-    <h2 class="section-title">Curriculum Vitae</h2>
-    <hr class="section-divider" />
-    <div class="cv-block">
-      <p>Full overview of my academic background, technical skills, and projects.</p>
-      <a href="cv/cv.pdf" target="_blank" rel="noopener" class="btn btn-primary">Open CV ↗</a>
-    </div>
-  </section>
-
-</div>
-
-<footer>
-  <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
-</footer>
-
-<script>
-  // Theme
-  function toggleTheme() {
-    const html = document.documentElement;
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    const icon = next === 'dark' ? '☀' : '☾';
-    document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
-    localStorage.setItem('theme', next);
-  }
-  // Hamburger
-  function toggleMenu() {
-    const links = document.querySelector('.nav-links');
-    const btn = document.getElementById('hamburger');
-    links.classList.toggle('open');
-    btn.classList.toggle('open');
-  }
-  // Close menu when a link is clicked
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.nav-links a').forEach(a => {
-      a.addEventListener('click', () => {
-        document.querySelector('.nav-links').classList.remove('open');
-        document.getElementById('hamburger').classList.remove('open');
+  <script>
+    // Theme
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      const icon = next === 'dark' ? '☀' : '☾';
+      document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
+      localStorage.setItem('theme', next);
+    }
+    // Hamburger
+    function toggleMenu() {
+      const links = document.querySelector('.nav-links');
+      const btn = document.getElementById('hamburger');
+      links.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    // Close menu when a link is clicked
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.querySelector('.nav-links').classList.remove('open');
+          document.getElementById('hamburger').classList.remove('open');
+        });
+      });
+      // Restore theme
+      const saved = localStorage.getItem('theme');
+      const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.addEventListener('DOMContentLoaded', () => {
+        const icon = theme === 'dark' ? '☀' : '☾';
+        document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
       });
     });
-    // Restore theme
-    const saved = localStorage.getItem('theme');
-    const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme);
-    document.addEventListener('DOMContentLoaded', () => {
-      const icon = theme === 'dark' ? '☀' : '☾';
-      document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
-    });
-  });
-</script>
+  </script>
 
-<button class="theme-fab" id="theme-fab" onclick="toggleTheme()" aria-label="Toggle theme">☀</button>
+  <button class="theme-fab" id="theme-fab" onclick="toggleTheme()" aria-label="Toggle theme">☀</button>
 </body>
+
 </html>

@@ -1,156 +1,176 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HPC Heat Diffusion — Lenox Kasa</title>
+
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
   <link rel="stylesheet" href="../style.css" />
 </head>
+
 <body>
 
-<nav>
-  <div class="nav-inner">
-    <a href="../index.html" class="nav-logo">lk<span>.</span></a>
-    <ul class="nav-links">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="index.html" class="active">Projects</a></li>
-      <li><a href="../index.html#academic">Academic</a></li>
-      <li><a href="../index.html#cv">CV</a></li>
-      <li><button class="theme-btn" onclick="toggleTheme()">☀</button></li>
-    </ul>
-    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<div class="page">
-  <div class="project-detail">
-
-    <a href="index.html" class="back-link">← Back to projects</a>
-
-    <h1>High-Performance 2D Heat Diffusion Solver</h1>
-
-    <div class="project-meta">
-      <span class="tag">HPC</span>
-      <span class="tag">Parallelization</span>
-      <span class="meta-date">March 2026</span>
-      <span class="chip">MPI</span>
-      <span class="chip">OpenMP</span>
-      <span class="chip">C</span>
-      <span class="chip">Valgrind</span>
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">lk<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Projects</a></li>
+        <li><a href="../index.html#academic">Academic</a></li>
+        <li><a href="../index.html#cv">CV</a></li>
+        <li><button class="theme-btn" onclick="toggleTheme()">☀</button></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </nav>
 
-    <div class="detail-layout">
+  <div class="page">
+    <div class="project-detail">
 
-      <div class="project-body">
+      <a href="index.html" class="back-link">← Back to projects</a>
 
-        <h2>Overview</h2>
-        <p>
-          Part of the <strong>High-Performance Computing (HPC)</strong> course, this project focuses on solving the 2D heat equation
-          using a five-point stencil computation. The goal was to implement an efficient parallel solver and analyze its
-          scaling behavior on real HPC clusters.
-        </p>
+      <h1>High-Performance 2D Heat Diffusion Solver</h1>
 
-        <h2>Implementation</h2>
-        <ul>
-          <li>
-            <strong>Hybrid parallelism:</strong> MPI is used for inter-node communication (distributing rows of the 2D grid across processes),
-            while OpenMP parallelizes the inner loops within each node across threads.
-          </li>
-          <li>
-            <strong>Halo exchanges:</strong> At each time step, neighboring MPI processes exchange boundary rows (ghost cells)
-            to ensure correct stencil computation at process boundaries.
-          </li>
-          <li>
-            <strong>Periodic boundary conditions:</strong> Optional support for periodic boundaries, wrapping the grid edges.
-          </li>
-          <li>
-            <strong>Domain decomposition:</strong> The 2D grid is decomposed along one axis across MPI ranks,
-            balancing load across processes.
-          </li>
-        </ul>
-
-        <h2>Profiling and analysis</h2>
-        <p>
-          Strong and weak scaling experiments were conducted on the <strong>Leonardo</strong> and <strong>Orfeo</strong> HPC clusters.
-          Shell scripts automate multi-node job submission; Python notebooks post-process timing data and produce scaling plots.
-          Valgrind cache profiling was used to identify memory bottlenecks and optimize data access patterns.
-        </p>
-
-        <h2>Key findings</h2>
-        <p>
-          The hybrid approach achieves near-linear strong scaling up to a moderate number of processes, after which
-          communication overhead begins to dominate. Weak scaling remained efficient across the tested configurations,
-          confirming that the domain decomposition strategy effectively balances computation and communication.
-        </p>
-
+      <div class="project-meta">
+        <span class="tag">HPC</span>
+        <span class="tag">Parallelization</span>
+        <span class="meta-date">March 2026</span>
+        <span class="chip">MPI</span>
+        <span class="chip">OpenMP</span>
+        <span class="chip">C</span>
+        <span class="chip">Valgrind</span>
       </div>
 
-      <aside class="project-sidebar">
-        <h3>Details</h3>
-        <ul>
-          <li><span>Date</span><span>March 2026</span></li>
-          <li><span>Course</span><span>HPC &amp; Cloud</span></li>
-          <li><span>Clusters</span><span>Leonardo, Orfeo</span></li>
-          <li><span>GitHub</span><span><a href="https://github.com/lennyka/HPC_project" target="_blank" style="color:var(--accent2)">HPC_project</a></span></li>
-        </ul>
+      <div class="detail-layout">
 
-        <h3 style="margin-top:1.2rem">Stack</h3>
-        <div class="chip-row" style="margin-top:0.5rem">
-          <span class="chip">C</span>
-          <span class="chip">MPI</span>
-          <span class="chip">OpenMP</span>
-          <span class="chip">Valgrind</span>
-          <span class="chip">Python</span>
-          <span class="chip">bash</span>
+        <div class="project-body">
+
+          <h2>Overview</h2>
+          <p>
+            Part of the <strong>High-Performance Computing (HPC)</strong> course, this project focuses on solving the 2D
+            heat equation
+            using a five-point stencil computation. The goal was to implement an efficient parallel solver and analyze
+            its
+            scaling behavior on real HPC clusters.
+          </p>
+
+          <h2>Implementation</h2>
+          <ul>
+            <li>
+              <strong>Hybrid parallelism:</strong> MPI is used for inter-node communication (distributing rows of the 2D
+              grid across processes),
+              while OpenMP parallelizes the inner loops within each node across threads.
+            </li>
+            <li>
+              <strong>Halo exchanges:</strong> At each time step, neighboring MPI processes exchange boundary rows
+              (ghost cells)
+              to ensure correct stencil computation at process boundaries.
+            </li>
+            <li>
+              <strong>Periodic boundary conditions:</strong> Optional support for periodic boundaries, wrapping the grid
+              edges.
+            </li>
+            <li>
+              <strong>Domain decomposition:</strong> The 2D grid is decomposed along one axis across MPI ranks,
+              balancing load across processes.
+            </li>
+          </ul>
+
+          <h2>Profiling and analysis</h2>
+          <p>
+            Strong and weak scaling experiments were conducted on the <strong>Leonardo</strong> and
+            <strong>Orfeo</strong> HPC clusters.
+            Shell scripts automate multi-node job submission; Python notebooks post-process timing data and produce
+            scaling plots.
+            Valgrind cache profiling was used to identify memory bottlenecks and optimize data access patterns.
+          </p>
+
+          <h2>Key findings</h2>
+          <p>
+            The hybrid approach achieves near-linear strong scaling up to a moderate number of processes, after which
+            communication overhead begins to dominate. Weak scaling remained efficient across the tested configurations,
+            confirming that the domain decomposition strategy effectively balances computation and communication.
+          </p>
+
         </div>
-      </aside>
 
+        <aside class="project-sidebar">
+          <h3>Details</h3>
+          <ul>
+            <li><span>Date</span><span>March 2026</span></li>
+            <li><span>Course</span><span>HPC &amp; Cloud</span></li>
+            <li><span>Clusters</span><span>Leonardo, Orfeo</span></li>
+            <li><span>GitHub</span><span><a href="https://github.com/lennyka/HPC_project" target="_blank"
+                  style="color:var(--accent2)">HPC_project</a></span></li>
+          </ul>
+
+          <h3 style="margin-top:1.2rem">Stack</h3>
+          <div class="chip-row" style="margin-top:0.5rem">
+            <span class="chip">C</span>
+            <span class="chip">MPI</span>
+            <span class="chip">OpenMP</span>
+            <span class="chip">Valgrind</span>
+            <span class="chip">Python</span>
+            <span class="chip">bash</span>
+          </div>
+        </aside>
+
+      </div>
     </div>
   </div>
-</div>
 
-<footer>
-  <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
-</footer>
+  <footer>
+    <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
+  </footer>
 
-<script>
-  // Theme
-  function toggleTheme() {
-    const html = document.documentElement;
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    const icon = next === 'dark' ? '☀' : '☾';
-    document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
-    localStorage.setItem('theme', next);
-  }
-  // Hamburger
-  function toggleMenu() {
-    const links = document.querySelector('.nav-links');
-    const btn = document.getElementById('hamburger');
-    links.classList.toggle('open');
-    btn.classList.toggle('open');
-  }
-  // Close menu when a link is clicked
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.nav-links a').forEach(a => {
-      a.addEventListener('click', () => {
-        document.querySelector('.nav-links').classList.remove('open');
-        document.getElementById('hamburger').classList.remove('open');
+  <script>
+    // Theme
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      const icon = next === 'dark' ? '☀' : '☾';
+      document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
+      localStorage.setItem('theme', next);
+    }
+    // Hamburger
+    function toggleMenu() {
+      const links = document.querySelector('.nav-links');
+      const btn = document.getElementById('hamburger');
+      links.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    // Close menu when a link is clicked
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.querySelector('.nav-links').classList.remove('open');
+          document.getElementById('hamburger').classList.remove('open');
+        });
+      });
+      // Restore theme
+      const saved = localStorage.getItem('theme');
+      const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.addEventListener('DOMContentLoaded', () => {
+        const icon = theme === 'dark' ? '☀' : '☾';
+        document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
       });
     });
-    // Restore theme
-    const saved = localStorage.getItem('theme');
-    const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme);
-    document.addEventListener('DOMContentLoaded', () => {
-      const icon = theme === 'dark' ? '☀' : '☾';
-      document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
-    });
-  });
-</script>
+  </script>
 
-<button class="theme-fab" id="theme-fab" onclick="toggleTheme()" aria-label="Toggle theme">☀</button>
+  <button class="theme-fab" id="theme-fab" onclick="toggleTheme()" aria-label="Toggle theme">☀</button>
 </body>
+
 </html>

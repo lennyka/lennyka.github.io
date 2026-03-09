@@ -1,162 +1,179 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Alzheimer's Classification — Lenox Kasa</title>
+
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
   <link rel="stylesheet" href="../style.css" />
 </head>
+
 <body>
 
-<nav>
-  <div class="nav-inner">
-    <a href="../index.html" class="nav-logo">lk<span>.</span></a>
-    <ul class="nav-links">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="index.html" class="active">Projects</a></li>
-      <li><a href="../index.html#academic">Academic</a></li>
-      <li><a href="../index.html#cv">CV</a></li>
-      <li><button class="theme-btn" onclick="toggleTheme()">☀</button></li>
-    </ul>
-    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<div class="page">
-  <div class="project-detail">
-
-    <a href="index.html" class="back-link">← Back to projects</a>
-
-    <h1>Alzheimer's Disease Classification using Graph Attention Networks and LSTMs</h1>
-
-    <div class="project-meta">
-      <span class="tag">GNN</span>
-      <span class="tag">Deep Learning</span>
-      <span class="tag">Medical</span>
-      <span class="meta-date">Jul 2025</span>
-      <span class="chip">pytorch</span>
-      <span class="chip">torch_geometric</span>
-      <span class="chip">GAT</span>
-      <span class="chip">LSTM</span>
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">lk<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Projects</a></li>
+        <li><a href="../index.html#academic">Academic</a></li>
+        <li><a href="../index.html#cv">CV</a></li>
+        <li><button class="theme-btn" onclick="toggleTheme()">☀</button></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </nav>
 
-    <div class="detail-layout">
+  <div class="page">
+    <div class="project-detail">
 
-      <div class="project-body">
+      <a href="index.html" class="back-link">← Back to projects</a>
 
-        <h2>Overview</h2>
-        <p>
-          The project classifies the severity of Alzheimer's disease into three distinct stages:
-          <strong>Non-Demented</strong>, <strong>Very Mild Dementia</strong>, and <strong>Mild/Moderate Dementia</strong>.
-          The dataset used is OASIS-1, containing roughly 80K 2D MRI brain slices (~61 slices per patient scan).
-        </p>
-        <p>
-          Rather than treating each slice as an independent image, the pipeline models the full 3D scan as a sequential volume,
-          capturing the progressive structural changes that characterize Alzheimer's progression.
-        </p>
+      <h1>Alzheimer's Disease Classification using Graph Attention Networks and LSTMs</h1>
 
-        <h2>Pipeline</h2>
-        <ul>
-          <li>
-            <strong>Preprocessing:</strong> Individual 2D MRI slices are segmented into superpixels using SLIC.
-            Each superpixel becomes a graph node (features: mean intensity, variance, spatial centroid),
-            and edges represent spatial adjacency between regions.
-          </li>
-          <li>
-            <strong>Graph Attention Network (GAT):</strong> A GAT processes each slice's graph independently,
-            learning attention-weighted relationships between brain regions and producing a rich per-slice embedding.
-          </li>
-          <li>
-            <strong>LSTM:</strong> The sequence of ~61 GAT embeddings from a single patient scan is passed through an LSTM,
-            which captures the progressive changes across the brain volume and outputs the final severity classification.
-          </li>
-        </ul>
-
-        <h2>Handling class imbalance</h2>
-        <p>
-          The OASIS-1 dataset is heavily imbalanced — the Non-Demented class dominates.
-          Oversampling via image duplication was impractical at scale, so class weights were computed
-          as the inverse class frequency and passed to a weighted <code>CrossEntropyLoss</code>.
-        </p>
-
-        <h2>Results</h2>
-        <p>
-          Training accuracy reached approximately 67% after 11 epochs, with a steadily decreasing training loss.
-          The model demonstrated that treating the MRI volume as a sequence (rather than independent slices)
-          significantly helps capture the structural patterns associated with dementia progression.
-        </p>
-
-        <h2>Collaborators</h2>
-        <p>Project developed with Kjanija Mersimoski and Mattia Simonutti.</p>
-
+      <div class="project-meta">
+        <span class="tag">GNN</span>
+        <span class="tag">Deep Learning</span>
+        <span class="tag">Medical</span>
+        <span class="meta-date">Jul 2025</span>
+        <span class="chip">pytorch</span>
+        <span class="chip">torch_geometric</span>
+        <span class="chip">GAT</span>
+        <span class="chip">LSTM</span>
       </div>
 
-      <aside class="project-sidebar">
-        <h3>Details</h3>
-        <ul>
-          <li><span>Date</span><span>Jul 2025</span></li>
-          <li><span>Course</span><span>Deep Learning</span></li>
-          <li><span>Dataset</span><span>OASIS-1</span></li>
-          <li><span>GitHub</span><span><a href="https://github.com/lennyka/DL_project" target="_blank" style="color:var(--accent2)">DL_project</a></span></li>
-        </ul>
+      <div class="detail-layout">
 
-        <h3 style="margin-top:1.2rem">Stack</h3>
-        <div class="chip-row" style="margin-top:0.5rem">
-          <span class="chip">pytorch</span>
-          <span class="chip">torch_geometric</span>
-          <span class="chip">scikit-image</span>
-          <span class="chip">numpy</span>
-          <span class="chip">pandas</span>
-          <span class="chip">matplotlib</span>
+        <div class="project-body">
+
+          <h2>Overview</h2>
+          <p>
+            The project classifies the severity of Alzheimer's disease into three distinct stages:
+            <strong>Non-Demented</strong>, <strong>Very Mild Dementia</strong>, and <strong>Mild/Moderate
+              Dementia</strong>.
+            The dataset used is OASIS-1, containing roughly 80K 2D MRI brain slices (~61 slices per patient scan).
+          </p>
+          <p>
+            Rather than treating each slice as an independent image, the pipeline models the full 3D scan as a
+            sequential volume,
+            capturing the progressive structural changes that characterize Alzheimer's progression.
+          </p>
+
+          <h2>Pipeline</h2>
+          <ul>
+            <li>
+              <strong>Preprocessing:</strong> Individual 2D MRI slices are segmented into superpixels using SLIC.
+              Each superpixel becomes a graph node (features: mean intensity, variance, spatial centroid),
+              and edges represent spatial adjacency between regions.
+            </li>
+            <li>
+              <strong>Graph Attention Network (GAT):</strong> A GAT processes each slice's graph independently,
+              learning attention-weighted relationships between brain regions and producing a rich per-slice embedding.
+            </li>
+            <li>
+              <strong>LSTM:</strong> The sequence of ~61 GAT embeddings from a single patient scan is passed through an
+              LSTM,
+              which captures the progressive changes across the brain volume and outputs the final severity
+              classification.
+            </li>
+          </ul>
+
+          <h2>Handling class imbalance</h2>
+          <p>
+            The OASIS-1 dataset is heavily imbalanced — the Non-Demented class dominates.
+            Oversampling via image duplication was impractical at scale, so class weights were computed
+            as the inverse class frequency and passed to a weighted <code>CrossEntropyLoss</code>.
+          </p>
+
+          <h2>Results</h2>
+          <p>
+            Training accuracy reached approximately 67% after 11 epochs, with a steadily decreasing training loss.
+            The model demonstrated that treating the MRI volume as a sequence (rather than independent slices)
+            significantly helps capture the structural patterns associated with dementia progression.
+          </p>
+
+          <h2>Collaborators</h2>
+          <p>Project developed with Kjanija Mersimoski and Mattia Simonutti.</p>
+
         </div>
-      </aside>
 
+        <aside class="project-sidebar">
+          <h3>Details</h3>
+          <ul>
+            <li><span>Date</span><span>Jul 2025</span></li>
+            <li><span>Course</span><span>Deep Learning</span></li>
+            <li><span>Dataset</span><span>OASIS-1</span></li>
+            <li><span>GitHub</span><span><a href="https://github.com/lennyka/DL_project" target="_blank"
+                  style="color:var(--accent2)">DL_project</a></span></li>
+          </ul>
+
+          <h3 style="margin-top:1.2rem">Stack</h3>
+          <div class="chip-row" style="margin-top:0.5rem">
+            <span class="chip">pytorch</span>
+            <span class="chip">torch_geometric</span>
+            <span class="chip">scikit-image</span>
+            <span class="chip">numpy</span>
+            <span class="chip">pandas</span>
+            <span class="chip">matplotlib</span>
+          </div>
+        </aside>
+
+      </div>
     </div>
   </div>
-</div>
 
-<footer>
-  <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
-</footer>
+  <footer>
+    <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
+  </footer>
 
-<script>
-  // Theme
-  function toggleTheme() {
-    const html = document.documentElement;
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    const icon = next === 'dark' ? '☀' : '☾';
-    document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
-    localStorage.setItem('theme', next);
-  }
-  // Hamburger
-  function toggleMenu() {
-    const links = document.querySelector('.nav-links');
-    const btn = document.getElementById('hamburger');
-    links.classList.toggle('open');
-    btn.classList.toggle('open');
-  }
-  // Close menu when a link is clicked
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.nav-links a').forEach(a => {
-      a.addEventListener('click', () => {
-        document.querySelector('.nav-links').classList.remove('open');
-        document.getElementById('hamburger').classList.remove('open');
+  <script>
+    // Theme
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      const icon = next === 'dark' ? '☀' : '☾';
+      document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
+      localStorage.setItem('theme', next);
+    }
+    // Hamburger
+    function toggleMenu() {
+      const links = document.querySelector('.nav-links');
+      const btn = document.getElementById('hamburger');
+      links.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    // Close menu when a link is clicked
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.querySelector('.nav-links').classList.remove('open');
+          document.getElementById('hamburger').classList.remove('open');
+        });
+      });
+      // Restore theme
+      const saved = localStorage.getItem('theme');
+      const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.addEventListener('DOMContentLoaded', () => {
+        const icon = theme === 'dark' ? '☀' : '☾';
+        document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
       });
     });
-    // Restore theme
-    const saved = localStorage.getItem('theme');
-    const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme);
-    document.addEventListener('DOMContentLoaded', () => {
-      const icon = theme === 'dark' ? '☀' : '☾';
-      document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
-    });
-  });
-</script>
+  </script>
 
-<button class="theme-fab" id="theme-fab" onclick="toggleTheme()" aria-label="Toggle theme">☀</button>
+  <button class="theme-fab" id="theme-fab" onclick="toggleTheme()" aria-label="Toggle theme">☀</button>
 </body>
+
 </html>

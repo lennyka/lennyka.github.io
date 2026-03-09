@@ -1,194 +1,213 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Projects — Lenox Kasa</title>
+
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
   <link rel="stylesheet" href="../style.css" />
 </head>
+
 <body>
 
-<nav>
-  <div class="nav-inner">
-    <a href="../index.html" class="nav-logo">lk<span>.</span></a>
-    <ul class="nav-links">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="index.html" class="active">Projects</a></li>
-      <li><a href="../index.html#academic">Academic</a></li>
-      <li><a href="../index.html#cv">CV</a></li>
-      <li><button class="theme-btn" onclick="toggleTheme()">☀</button></li>
-    </ul>
-    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">lk<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Projects</a></li>
+        <li><a href="../index.html#academic">Academic</a></li>
+        <li><a href="../index.html#cv">CV</a></li>
+        <li><button class="theme-btn" onclick="toggleTheme()">☀</button></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <div class="projects-header">
+      <p class="section-eyebrow">// work</p>
+      <h1>Projects</h1>
+      <p>A collection of academic and personal projects spanning ML, NLP, GNNs, HPC, and software engineering.</p>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterProjects('all', this)">All</button>
+      <button class="filter-btn" onclick="filterProjects('nlp', this)">NLP</button>
+      <button class="filter-btn" onclick="filterProjects('gnn', this)">GNN</button>
+      <button class="filter-btn" onclick="filterProjects('hpc', this)">HPC</button>
+      <button class="filter-btn" onclick="filterProjects('generative', this)">Generative</button>
+      <button class="filter-btn" onclick="filterProjects('cnn', this)">CNN</button>
+      <button class="filter-btn" onclick="filterProjects('software', this)">Software</button>
+    </div>
+
+    <div class="projects-full-grid" id="projects-grid">
+
+      <a href="head_atlas/index.html" class="project-card-standalone" data-tags="nlp research">
+        <div class="card-header">
+          <h4>Head Atlas</h4>
+          <div class="tag-row"><span class="tag">NLP</span><span class="tag">Research</span></div>
+        </div>
+        <p class="card-date">Feb 2026</p>
+        <p class="card-desc">Replication and extension of the HeadPursuit paper. Generalizes the interpretability method
+          to any HuggingFace model, investigates attention head specialization metrics, and builds new visualizations.
+        </p>
+        <div class="chip-row">
+          <span class="chip">transformers</span>
+          <span class="chip">pytorch</span>
+          <span class="chip">huggingface</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a href="alzheimer.html" class="project-card-standalone" data-tags="gnn deep-learning">
+        <div class="card-header">
+          <h4>Alzheimer's Classification via GAT + LSTM</h4>
+          <div class="tag-row"><span class="tag">GNN</span><span class="tag">Deep Learning</span></div>
+        </div>
+        <p class="card-date">Jul 2025</p>
+        <p class="card-desc">Hybrid pipeline for Alzheimer's severity classification. MRI slices are converted into
+          superpixel graphs; a GAT encodes each slice, then an LSTM models the sequential volume.</p>
+        <div class="chip-row">
+          <span class="chip">pytorch</span>
+          <span class="chip">torch_geometric</span>
+          <span class="chip">GAT</span>
+          <span class="chip">LSTM</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a href="hpc.html" class="project-card-standalone" data-tags="hpc">
+        <div class="card-header">
+          <h4>High-Performance 2D Heat Diffusion Solver</h4>
+          <div class="tag-row"><span class="tag">HPC</span></div>
+        </div>
+        <p class="card-date">March 2026</p>
+        <p class="card-desc">Parallel implementation of a 2D five-point stencil for heat diffusion. Hybrid MPI + OpenMP
+          with domain decomposition, halo exchanges, and scaling analysis on HPC clusters.</p>
+        <div class="chip-row">
+          <span class="chip">MPI</span>
+          <span class="chip">OpenMP</span>
+          <span class="chip">C</span>
+          <span class="chip">Valgrind</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a href="diffusion.html" class="project-card-standalone" data-tags="generative gnn">
+        <div class="card-header">
+          <h4>Diffusion for Molecule Generation</h4>
+          <div class="tag-row"><span class="tag">Generative</span><span class="tag">GNN</span></div>
+        </div>
+        <p class="card-date">2025</p>
+        <p class="card-desc">Diffusion model for 3D molecule generation on QM9. An EGNN score model conditions on atom
+          features and adjacency for validity-aware sampling from the reverse diffusion process.</p>
+        <div class="chip-row">
+          <span class="chip">pytorch</span>
+          <span class="chip">torch_geometric</span>
+          <span class="chip">EGNN</span>
+          <span class="chip">RDKit</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a href="dincae.html" class="project-card-standalone" data-tags="cnn">
+        <div class="card-header">
+          <h4>DINCAE — Oceanographic Reconstruction</h4>
+          <div class="tag-row"><span class="tag">CNN</span><span class="tag">Thesis</span></div>
+        </div>
+        <p class="card-date">Sep 2024 — B.Sc. Thesis</p>
+        <p class="card-desc">Analysis and study of DINCAE, a convolutional autoencoder reconstructing missing satellite
+          sea-surface temperature data. Compared v1.0 (Python/TF) and v2.0 (Julia).</p>
+        <div class="chip-row">
+          <span class="chip">python</span>
+          <span class="chip">julia</span>
+          <span class="chip">tensorflow</span>
+          <span class="chip">CNN</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a href="quoridor.html" class="project-card-standalone" data-tags="software">
+        <div class="card-header">
+          <h4>Quoridor</h4>
+          <div class="tag-row"><span class="tag">Software Dev</span></div>
+        </div>
+        <p class="card-date">Feb 2026</p>
+        <p class="card-desc">Full Java implementation of the Quoridor board game for the Software Development course.
+          Covers game logic, player AI, and graphical UI.</p>
+        <div class="chip-row">
+          <span class="chip">java</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+    </div>
+
   </div>
-</nav>
 
-<div class="page">
+  <footer>
+    <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
+  </footer>
 
-  <div class="projects-header">
-    <p class="section-eyebrow">// work</p>
-    <h1>Projects</h1>
-    <p>A collection of academic and personal projects spanning ML, NLP, GNNs, HPC, and software engineering.</p>
-  </div>
-
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterProjects('all', this)">All</button>
-    <button class="filter-btn" onclick="filterProjects('nlp', this)">NLP</button>
-    <button class="filter-btn" onclick="filterProjects('gnn', this)">GNN</button>
-    <button class="filter-btn" onclick="filterProjects('hpc', this)">HPC</button>
-    <button class="filter-btn" onclick="filterProjects('generative', this)">Generative</button>
-    <button class="filter-btn" onclick="filterProjects('cnn', this)">CNN</button>
-    <button class="filter-btn" onclick="filterProjects('software', this)">Software</button>
-  </div>
-
-  <div class="projects-full-grid" id="projects-grid">
-
-    <a href="head_atlas/index.html" class="project-card-standalone" data-tags="nlp research">
-      <div class="card-header">
-        <h4>Head Atlas</h4>
-        <div class="tag-row"><span class="tag">NLP</span><span class="tag">Research</span></div>
-      </div>
-      <p class="card-date">Feb 2026</p>
-      <p class="card-desc">Replication and extension of the HeadPursuit paper. Generalizes the interpretability method to any HuggingFace model, investigates attention head specialization metrics, and builds new visualizations.</p>
-      <div class="chip-row">
-        <span class="chip">transformers</span>
-        <span class="chip">pytorch</span>
-        <span class="chip">huggingface</span>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-    <a href="alzheimer.html" class="project-card-standalone" data-tags="gnn deep-learning">
-      <div class="card-header">
-        <h4>Alzheimer's Classification via GAT + LSTM</h4>
-        <div class="tag-row"><span class="tag">GNN</span><span class="tag">Deep Learning</span></div>
-      </div>
-      <p class="card-date">Jul 2025</p>
-      <p class="card-desc">Hybrid pipeline for Alzheimer's severity classification. MRI slices are converted into superpixel graphs; a GAT encodes each slice, then an LSTM models the sequential volume.</p>
-      <div class="chip-row">
-        <span class="chip">pytorch</span>
-        <span class="chip">torch_geometric</span>
-        <span class="chip">GAT</span>
-        <span class="chip">LSTM</span>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-    <a href="hpc.html" class="project-card-standalone" data-tags="hpc">
-      <div class="card-header">
-        <h4>High-Performance 2D Heat Diffusion Solver</h4>
-        <div class="tag-row"><span class="tag">HPC</span></div>
-      </div>
-      <p class="card-date">March 2026</p>
-      <p class="card-desc">Parallel implementation of a 2D five-point stencil for heat diffusion. Hybrid MPI + OpenMP with domain decomposition, halo exchanges, and scaling analysis on HPC clusters.</p>
-      <div class="chip-row">
-        <span class="chip">MPI</span>
-        <span class="chip">OpenMP</span>
-        <span class="chip">C</span>
-        <span class="chip">Valgrind</span>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-    <a href="diffusion.html" class="project-card-standalone" data-tags="generative gnn">
-      <div class="card-header">
-        <h4>Diffusion for Molecule Generation</h4>
-        <div class="tag-row"><span class="tag">Generative</span><span class="tag">GNN</span></div>
-      </div>
-      <p class="card-date">2025</p>
-      <p class="card-desc">Diffusion model for 3D molecule generation on QM9. An EGNN score model conditions on atom features and adjacency for validity-aware sampling from the reverse diffusion process.</p>
-      <div class="chip-row">
-        <span class="chip">pytorch</span>
-        <span class="chip">torch_geometric</span>
-        <span class="chip">EGNN</span>
-        <span class="chip">RDKit</span>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-    <a href="dincae.html" class="project-card-standalone" data-tags="cnn">
-      <div class="card-header">
-        <h4>DINCAE — Oceanographic Reconstruction</h4>
-        <div class="tag-row"><span class="tag">CNN</span><span class="tag">Thesis</span></div>
-      </div>
-      <p class="card-date">Sep 2024 — B.Sc. Thesis</p>
-      <p class="card-desc">Analysis and study of DINCAE, a convolutional autoencoder reconstructing missing satellite sea-surface temperature data. Compared v1.0 (Python/TF) and v2.0 (Julia).</p>
-      <div class="chip-row">
-        <span class="chip">python</span>
-        <span class="chip">julia</span>
-        <span class="chip">tensorflow</span>
-        <span class="chip">CNN</span>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-    <a href="quoridor.html" class="project-card-standalone" data-tags="software">
-      <div class="card-header">
-        <h4>Quoridor</h4>
-        <div class="tag-row"><span class="tag">Software Dev</span></div>
-      </div>
-      <p class="card-date">Feb 2026</p>
-      <p class="card-desc">Full Java implementation of the Quoridor board game for the Software Development course. Covers game logic, player AI, and graphical UI.</p>
-      <div class="chip-row">
-        <span class="chip">java</span>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-  </div>
-
-</div>
-
-<footer>
-  <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
-</footer>
-
-<script>
-  // Filter
-  function filterProjects(tag, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.project-card-standalone').forEach(card => {
-      const tags = card.getAttribute('data-tags') || '';
-      card.style.display = (tag === 'all' || tags.includes(tag)) ? '' : 'none';
-    });
-  }
-  // Theme
-  function toggleTheme() {
-    const html = document.documentElement;
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    const icon = next === 'dark' ? '☀' : '☾';
-    document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
-    localStorage.setItem('theme', next);
-  }
-  // Hamburger
-  function toggleMenu() {
-    const links = document.querySelector('.nav-links');
-    const btn = document.getElementById('hamburger');
-    links.classList.toggle('open');
-    btn.classList.toggle('open');
-  }
-  // Close menu when a link is clicked
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.nav-links a').forEach(a => {
-      a.addEventListener('click', () => {
-        document.querySelector('.nav-links').classList.remove('open');
-        document.getElementById('hamburger').classList.remove('open');
+  <script>
+    // Filter
+    function filterProjects(tag, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.project-card-standalone').forEach(card => {
+        const tags = card.getAttribute('data-tags') || '';
+        card.style.display = (tag === 'all' || tags.includes(tag)) ? '' : 'none';
+      });
+    }
+    // Theme
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      const icon = next === 'dark' ? '☀' : '☾';
+      document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
+      localStorage.setItem('theme', next);
+    }
+    // Hamburger
+    function toggleMenu() {
+      const links = document.querySelector('.nav-links');
+      const btn = document.getElementById('hamburger');
+      links.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    // Close menu when a link is clicked
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.querySelector('.nav-links').classList.remove('open');
+          document.getElementById('hamburger').classList.remove('open');
+        });
+      });
+      // Restore theme
+      const saved = localStorage.getItem('theme');
+      const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      document.addEventListener('DOMContentLoaded', () => {
+        const icon = theme === 'dark' ? '☀' : '☾';
+        document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
       });
     });
-    // Restore theme
-    const saved = localStorage.getItem('theme');
-    const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme);
-    document.addEventListener('DOMContentLoaded', () => {
-      const icon = theme === 'dark' ? '☀' : '☾';
-      document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
-    });
-  });
-</script>
+  </script>
 
-<button class="theme-fab" id="theme-fab" onclick="toggleTheme()" aria-label="Toggle theme">☀</button>
+  <button class="theme-fab" id="theme-fab" onclick="toggleTheme()" aria-label="Toggle theme">☀</button>
 </body>
+
 </html>
