@@ -52,7 +52,8 @@
                         <strong>HeadPursuit</strong> paper,
                         which explores how individual attention heads in transformer models specialize in different
                         linguistic tasks.
-                        From there, the work extended in three directions.</p>
+                        From there, the work extended in three directions.
+                    </p>
 
                     <h2>What was done</h2>
                     <ul>
@@ -109,124 +110,135 @@
                 </aside>
             </div>
 
-            <!-- ══════════ DEMO (stays inside .page, same max-width) ══════════ -->
-            <p class="demo-eyebrow">// interactive demo</p>
-            <p class="demo-title">Attention Head Geometry</p>
-            <p class="demo-subtitle">
-                Each dot is an attention head from a transformer model, projected into 2D via PCA/UMAP. 
-                Heads that cluster together share similar specialization patterns. Click any dot to inspect it.
-                <strong>Explore</strong> to inspect individual heads,
-                <strong>Compare</strong> to compute similarity metrics between two.
-            </p>
+            <div class="desktop-demo-container">
+                <!-- ══════════ DEMO (stays inside .page, same max-width) ══════════ -->
+                <p class="demo-eyebrow">// interactive demo</p>
+                <p class="demo-title">Attention Head Geometry</p>
+                <p class="demo-subtitle">
+                    Each dot is an attention head from a transformer model, projected into 2D via PCA/UMAP.
+                    Heads that cluster together share similar specialization patterns. Click any dot to inspect it.
+                    <strong>Explore</strong> to inspect individual heads,
+                    <strong>Compare</strong> to compute similarity metrics between two.
+                </p>
 
-            <!-- Shell -->
-            <div class="demo-shell demo-full-bleed" id="demoShell">
+                <!-- Shell -->
+                <div class="demo-shell demo-full-bleed" id="demoShell">
 
-                <!-- Plot area -->
-                <div class="demo-plot-area" id="demoPlotWrap">
-                    <div class="demo-loading" id="demoLoading">
-                        <div class="demo-loading-spinner"></div>
-                        <span>Rendering the heads…</span>
+                    <!-- Plot area -->
+                    <div class="demo-plot-area" id="demoPlotWrap">
+                        <div class="demo-loading" id="demoLoading">
+                            <div class="demo-loading-spinner"></div>
+                            <span>Rendering the heads…</span>
+                        </div>
+
+                        <!-- Floating controls -->
+                        <div class="demo-controls" id="demoControls">
+                            <div class="demo-searchbox">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <path d="m21 21-4.35-4.35" />
+                                </svg>
+                                <input type="text" id="demoSearch" placeholder="Search heads…" autocomplete="off" />
+                            </div>
+                            <select class="demo-catselect" id="demoCat">
+                                <option value="">All Categories</option>
+                            </select>
+                            <div class="demo-mode-row">
+                                <button class="demo-mode-btn active" id="btnExplore"
+                                    onclick="setMode('explore')">Explore</button>
+                                <button class="demo-mode-btn" id="btnCompare"
+                                    onclick="setMode('compare')">Compare</button>
+                            </div>
+                        </div>
+
+                        <div id="demoPlot"></div>
                     </div>
 
-                    <!-- Floating controls -->
-                    <div class="demo-controls" id="demoControls">
-                        <div class="demo-searchbox">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <circle cx="11" cy="11" r="8" />
-                                <path d="m21 21-4.35-4.35" />
+                    <!-- Drag handle -->
+                    <div class="demo-drag-handle" id="demoDragHandle"></div>
+
+                    <!-- Sidebar -->
+                    <div class="demo-sidebar" id="demoSidebar">
+
+                        <!-- Empty state -->
+                        <div class="ds-empty" id="dsEmpty">
+                            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.2">
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" />
                             </svg>
-                            <input type="text" id="demoSearch" placeholder="Search heads…" autocomplete="off" />
+                            <span>Click a dot to inspect a head</span>
                         </div>
-                        <select class="demo-catselect" id="demoCat">
-                            <option value="">All Categories</option>
-                        </select>
-                        <div class="demo-mode-row">
-                            <button class="demo-mode-btn active" id="btnExplore"
-                                onclick="setMode('explore')">Explore</button>
-                            <button class="demo-mode-btn" id="btnCompare" onclick="setMode('compare')">Compare</button>
-                        </div>
-                    </div>
 
-                    <div id="demoPlot"></div>
+                        <!-- Explore panel -->
+                        <div id="ds-explore">
+                            <div class="ds-head">
+                                <div class="ds-title" id="de-title">—</div>
+                                <div class="ds-id" id="de-id">—</div>
+                                <div class="ds-badges" id="de-badges"></div>
+                            </div>
+                            <div class="ds-body">
+                                <div>
+                                    <span class="ds-label">Description</span>
+                                    <div class="ds-desc" id="de-desc">—</div>
+                                </div>
+                                <div class="ds-score" id="de-score"></div>
+                                <div>
+                                    <span class="ds-label">Top Vocabulary</span>
+                                    <div class="ds-vocab" id="de-vocab"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Compare panel -->
+                        <div id="ds-compare">
+                            <h3>Compare Heads</h3>
+                            <p class="ds-sub">Select two heads from the plot to analyze their similarity.</p>
+                            <div class="compare-grid">
+                                <div class="compare-slot" id="cslot-0">
+                                    <span style="color:var(--text3);font-size:0.75rem">Select A</span>
+                                </div>
+                                <div class="compare-slot" id="cslot-1">
+                                    <span style="color:var(--text3);font-size:0.75rem">Select B</span>
+                                </div>
+                            </div>
+                            <div class="compare-results" id="compareResults" style="display:none">
+                                <span class="ds-label" style="margin-bottom:0.4rem">Similarity Metrics</span>
+                                <div class="metric-card" style="background:color-mix(in srgb,#6c5ce7 12%,transparent)">
+                                    <div class="mc-label">Cosine Similarity (PCA)</div>
+                                    <div class="mc-val" id="mc-cos" style="color:var(--accent2)">—</div>
+                                </div>
+                                <div class="metric-card" style="background:color-mix(in srgb,#00b894 10%,transparent)">
+                                    <div class="mc-label">Norm. Euclidean Distance</div>
+                                    <div class="mc-val" id="mc-euc" style="color:#00b894">—</div>
+                                </div>
+                                <div class="metric-card" style="background:color-mix(in srgb,#fdcb6e 12%,transparent)">
+                                    <div class="mc-label">Jaccard Similarity (vocab)</div>
+                                    <div class="mc-val" id="mc-jac" style="color:#e67e22">—</div>
+                                </div>
+                                <div>
+                                    <span class="ds-label">Common Vocabulary</span>
+                                    <div class="ds-vocab" id="mc-common"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-hint" id="demoHint">
+                            Scroll to zoom · Drag to pan · Data: LLaVA-Next, Mistral, Qwen2.5-VL
+                        </div>
+                    </div><!-- /sidebar -->
+                </div><!-- /demo-shell -->
+            </div>
+
+            <div class="mobile-demo-fallback">
+                <div class="project-body">
+                    <h3>Demo available on Desktop</h3>
+                    <p>The interactive exploration tool is optimized for larger screens. Please visit this page from
+                        your computer to explore the models' map.</p>
                 </div>
-
-                <!-- Drag handle -->
-                <div class="demo-drag-handle" id="demoDragHandle"></div>
-
-                <!-- Sidebar -->
-                <div class="demo-sidebar" id="demoSidebar">
-
-                    <!-- Empty state -->
-                    <div class="ds-empty" id="dsEmpty">
-                        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.2">
-                            <circle cx="12" cy="12" r="3" />
-                            <path
-                                d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" />
-                        </svg>
-                        <span>Click a dot to inspect a head</span>
-                    </div>
-
-                    <!-- Explore panel -->
-                    <div id="ds-explore">
-                        <div class="ds-head">
-                            <div class="ds-title" id="de-title">—</div>
-                            <div class="ds-id" id="de-id">—</div>
-                            <div class="ds-badges" id="de-badges"></div>
-                        </div>
-                        <div class="ds-body">
-                            <div>
-                                <span class="ds-label">Description</span>
-                                <div class="ds-desc" id="de-desc">—</div>
-                            </div>
-                            <div class="ds-score" id="de-score"></div>
-                            <div>
-                                <span class="ds-label">Top Vocabulary</span>
-                                <div class="ds-vocab" id="de-vocab"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Compare panel -->
-                    <div id="ds-compare">
-                        <h3>Compare Heads</h3>
-                        <p class="ds-sub">Select two heads from the plot to analyze their similarity.</p>
-                        <div class="compare-grid">
-                            <div class="compare-slot" id="cslot-0">
-                                <span style="color:var(--text3);font-size:0.75rem">Select A</span>
-                            </div>
-                            <div class="compare-slot" id="cslot-1">
-                                <span style="color:var(--text3);font-size:0.75rem">Select B</span>
-                            </div>
-                        </div>
-                        <div class="compare-results" id="compareResults" style="display:none">
-                            <span class="ds-label" style="margin-bottom:0.4rem">Similarity Metrics</span>
-                            <div class="metric-card" style="background:color-mix(in srgb,#6c5ce7 12%,transparent)">
-                                <div class="mc-label">Cosine Similarity (PCA)</div>
-                                <div class="mc-val" id="mc-cos" style="color:var(--accent2)">—</div>
-                            </div>
-                            <div class="metric-card" style="background:color-mix(in srgb,#00b894 10%,transparent)">
-                                <div class="mc-label">Norm. Euclidean Distance</div>
-                                <div class="mc-val" id="mc-euc" style="color:#00b894">—</div>
-                            </div>
-                            <div class="metric-card" style="background:color-mix(in srgb,#fdcb6e 12%,transparent)">
-                                <div class="mc-label">Jaccard Similarity (vocab)</div>
-                                <div class="mc-val" id="mc-jac" style="color:#e67e22">—</div>
-                            </div>
-                            <div>
-                                <span class="ds-label">Common Vocabulary</span>
-                                <div class="ds-vocab" id="mc-common"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="demo-hint" id="demoHint">
-                        Scroll to zoom · Drag to pan · Data: LLaVA-Next, Mistral, Qwen2.5-VL
-                    </div>
-                </div><!-- /sidebar -->
-            </div><!-- /demo-shell -->
+            </div>
 
         </div><!-- /project-detail -->
     </div><!-- /page -->
@@ -273,3 +285,4 @@
 </body>
 
 </html>
+
