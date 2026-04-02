@@ -7,7 +7,7 @@
     <title>Head Atlas — Lenox Kasa</title>
 
     <script>
-        (function() {
+        (function () {
             var saved = localStorage.getItem('theme');
             var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             document.documentElement.setAttribute('data-theme', theme);
@@ -79,7 +79,7 @@
                             intuitive comparison of head behavior across layers and models.</li>
                     </ul>
 
-                    <h2>Motivation</h2>
+                    <!-- <h2>Motivation</h2>
                     <p>Understanding what individual attention heads "do" is a central problem in transformer
                         interpretability.
                         Most existing tools either require custom training procedures or are tied to specific model
@@ -97,30 +97,29 @@
                         rate of change of specialization scores to decide when to stop adding heads, rather than relying
                         on a
                         fixed budget?</p>
+                </div> -->
+
+                    <aside class="project-sidebar">
+                        <h3>Details</h3>
+                        <ul>
+                            <li><span>Date</span><span>Feb 2026</span></li>
+                            <li><span>Course</span><span>NLP Research</span></li>
+                            <li><span>Type</span><span>Research project</span></li>
+                            <li><span>GitHub</span><span>-</span></li>
+                        </ul>
+                        <h3 style="margin-top:1.2rem">Stack</h3>
+                        <div class="chip-row" style="margin-top:0.5rem">
+                            <span class="chip">transformers</span>
+                            <span class="chip">pytorch</span>
+                            <span class="chip">huggingface</span>
+                            <span class="chip">numpy</span>
+                            <span class="chip">plotly</span>
+                            <span class="chip">fuse.js</span>
+                        </div>
+                    </aside>
                 </div>
 
-                <aside class="project-sidebar">
-                    <h3>Details</h3>
-                    <ul>
-                        <li><span>Date</span><span>Feb 2026</span></li>
-                        <li><span>Course</span><span>NLP Research</span></li>
-                        <li><span>Type</span><span>Research project</span></li>
-                        <li><span>GitHub</span><span>-</span></li>
-                    </ul>
-                    <h3 style="margin-top:1.2rem">Stack</h3>
-                    <div class="chip-row" style="margin-top:0.5rem">
-                        <span class="chip">transformers</span>
-                        <span class="chip">pytorch</span>
-                        <span class="chip">huggingface</span>
-                        <span class="chip">numpy</span>
-                        <span class="chip">plotly</span>
-                        <span class="chip">fuse.js</span>
-                    </div>
-                </aside>
-            </div>
-
-            <div class="desktop-demo-container">
-                <!-- ══════════ DEMO (stays inside .page, same max-width) ══════════ -->
+                <!-- <div class="desktop-demo-container">
                 <p class="demo-eyebrow">// interactive demo</p>
                 <p class="demo-title">Attention Head Geometry</p>
                 <p class="demo-subtitle">
@@ -130,17 +129,14 @@
                     <strong>Compare</strong> to compute similarity metrics between two.
                 </p>
 
-                <!-- Shell -->
                 <div class="demo-shell demo-full-bleed" id="demoShell">
 
-                    <!-- Plot area -->
                     <div class="demo-plot-area" id="demoPlotWrap">
                         <div class="demo-loading" id="demoLoading">
                             <div class="demo-loading-spinner"></div>
                             <span>Rendering the heads…</span>
                         </div>
 
-                        <!-- Floating controls -->
                         <div class="demo-controls" id="demoControls">
                             <div class="demo-searchbox">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -164,13 +160,10 @@
                         <div id="demoPlot"></div>
                     </div>
 
-                    <!-- Drag handle -->
                     <div class="demo-drag-handle" id="demoDragHandle"></div>
 
-                    <!-- Sidebar -->
                     <div class="demo-sidebar" id="demoSidebar">
 
-                        <!-- Empty state -->
                         <div class="ds-empty" id="dsEmpty">
                             <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="1.2">
@@ -181,7 +174,6 @@
                             <span>Click a dot to inspect a head</span>
                         </div>
 
-                        <!-- Explore panel -->
                         <div id="ds-explore">
                             <div class="ds-head">
                                 <div class="ds-title" id="de-title">—</div>
@@ -201,7 +193,6 @@
                             </div>
                         </div>
 
-                        <!-- Compare panel -->
                         <div id="ds-compare">
                             <h3>Compare Heads</h3>
                             <p class="ds-sub">Select two heads from the plot to analyze their similarity.</p>
@@ -237,8 +228,8 @@
                         <div class="demo-hint" id="demoHint">
                             Scroll to zoom · Drag to pan · Data: LLaVA-Next, Mistral, Qwen2.5-VL
                         </div>
-                    </div><!-- /sidebar -->
-                </div><!-- /demo-shell -->
+                    </div>
+                </div>-->
             </div>
 
             <div class="mobile-demo-fallback">
@@ -291,9 +282,8 @@
             initDemo();
         });
     </script>
-    <script src="demo.js"></script>
+    <!-- <script src="demo.js"></script>  -->
 
 </body>
 
 </html>
-
