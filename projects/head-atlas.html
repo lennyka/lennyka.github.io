@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Head Atlas — Lenox Kasa</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+  <style>
+    /* ---- DEMO SECTION ---- */
+    .demo-section {
+      margin-top: 3rem;
+      border-top: 1px solid var(--border);
+      padding-top: 2.5rem;
+    }
+
+    .demo-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .demo-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .demo-subtitle {
+      font-size: 0.82rem;
+      color: var(--text2);
+      margin-bottom: 1.5rem;
+    }
+
+    .demo-shell {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg2);
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      min-height: 480px;
+    }
+
+    /* Plot area */
+    .demo-plot-wrap {
+      position: relative;
+      background: var(--bg);
+      min-height: 480px;
+    }
+
+    #demoPlot {
+      width: 100%;
+      height: 100%;
+      min-height: 480px;
+    }
+
+    /* Filter bar inside demo */
+    .demo-filters {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      z-index: 10;
+    }
+
+    .demo-filter-btn {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      border: 1px solid var(--border2);
+      background: color-mix(in srgb, var(--bg2) 90%, transparent);
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.18s;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(6px);
+    }
+
+    .demo-filter-btn:hover,
+    .demo-filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Sidebar panel */
+    .demo-sidebar {
+      border-left: 1px solid var(--border);
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      overflow-y: auto;
+    }
+
+    .demo-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text3);
+      font-size: 0.78rem;
+      text-align: center;
+      gap: 0.5rem;
+    }
+
+    .demo-empty svg {
+      opacity: 0.35;
+    }
+
+    .demo-head-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .demo-head-id {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text3);
+    }
+
+    .demo-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.2rem;
+    }
+
+    .demo-badge {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent2);
+      letter-spacing: 0.04em;
+    }
+
+    .demo-badge-gray {
+      background: var(--border);
+      color: var(--text2);
+    }
+
+    .demo-section-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text3);
+      margin-top: 0.8rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .demo-desc {
+      font-size: 0.78rem;
+      color: var(--text2);
+      line-height: 1.65;
+    }
+
+    .demo-score {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text3);
+    }
+
+    .vocab-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.2rem;
+    }
+
+    .vocab-tag {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      border: 1px solid var(--border2);
+      color: var(--text3);
+    }
+
+    .demo-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0.4rem 0;
+    }
+
+    .demo-hint {
+      font-size: 0.72rem;
+      color: var(--text3);
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 680px) {
+      .demo-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .demo-sidebar {
+        border-left: none;
+        border-top: 1px solid var(--border);
+        min-height: 200px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">lk<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Projects</a></li>
+        <li><a href="../index.html#academic">Academic</a></li>
+        <li><a href="../index.html#cv">CV</a></li>
+        <li><button class="theme-btn" onclick="toggleTheme()">☀</button></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="project-detail">
+
+      <a href="index.html" class="back-link">← Back to projects</a>
+
+      <h1>Head Atlas</h1>
+
+      <div class="project-meta">
+        <span class="tag">NLP</span>
+        <span class="tag">Research</span>
+        <span class="meta-date">Feb 2026</span>
+        <span class="chip">transformers</span>
+        <span class="chip">pytorch</span>
+        <span class="chip">huggingface</span>
+        <span class="chip">SOMP</span>
+      </div>
+
+      <div class="detail-layout">
+
+        <div class="project-body">
+
+          <h2>Overview</h2>
+          <p>
+            This project started with the goal of replicating the findings of the <strong>HeadPursuit</strong> paper,
+            which explores how individual attention heads in transformer models specialize in different linguistic
+            tasks.
+            From there, the work extended in three directions.
+          </p>
+
+          <h2>What was done</h2>
+          <ul>
+            <li><strong>Replication</strong> of the original HeadPursuit findings on standard benchmark models.</li>
+            <li><strong>Generalization</strong> of the interpretability method to any model available on HuggingFace,
+              removing the original paper's constraint to a fixed set of architectures.</li>
+            <li><strong>Investigation</strong> of attention head specialization metrics and their potential use as a
+              stopping criterion for the SOMP (Simultaneous Orthogonal Matching Pursuit) algorithm.</li>
+            <li><strong>Visualization</strong> of attention heads organized by their specialization metric, enabling
+              intuitive comparison of head behavior across layers and models.</li>
+          </ul>
+
+          <!-- <h2>Motivation</h2>
+          <p>
+            Understanding what individual attention heads "do" is a central problem in transformer interpretability.
+            Most existing tools either require custom training procedures or are tied to specific model families.
+            By decoupling the method from the architecture, this project makes head analysis accessible to the broader
+            NLP ecosystem.
+          </p>
+
+          <h2>Technical approach</h2>
+          <p>
+            The approach uses probing tasks to assign specialization scores to each attention head.
+            These scores are then fed into a sparse selection algorithm (SOMP) to identify which heads are most
+            informative for a given linguistic property.
+            The stopping criterion investigation asks: can we use the rate of change of specialization scores to decide
+            when to stop adding heads, rather than relying on a fixed budget?
+          </p> -->
+
+          <!-- ===== DEMO ===== -->
+          <!-- <div class="demo-section">
+            <p class="demo-label">// interactive demo</p>
+            <p class="demo-title">Attention Head Geometry</p>
+            <p class="demo-subtitle">
+              Each dot is an attention head from a transformer model, projected into 2D via PCA/UMAP.
+              Heads that cluster together share similar specialization patterns. Click any dot to inspect it.
+            </p>
+
+            <div class="demo-shell">
+
+              <div class="demo-plot-wrap">
+                <div class="demo-filters" id="demoFilters">
+                  <button class="demo-filter-btn active" onclick="demoFilter('all', this)">All</button>
+                </div>
+                <div id="demoPlot"></div>
+              </div>
+
+              <div class="demo-sidebar" id="demoSidebar">
+                <div class="demo-empty" id="demoEmpty">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3" />
+                    <path
+                      d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+                  </svg>
+                  <span>Click a dot to inspect a head</span>
+                </div>
+                <div id="demoDetails" style="display:none;">
+                  <div class="demo-head-title" id="dd-title">—</div>
+                  <div class="demo-head-id" id="dd-id">—</div>
+                  <div class="demo-badges" id="dd-badges"></div>
+                  <hr class="demo-divider" />
+                  <div class="demo-section-label">Description</div>
+                  <div class="demo-desc" id="dd-desc">—</div>
+                  <div class="demo-score" id="dd-score"></div>
+                  <div class="demo-section-label">Top Vocabulary</div>
+                  <div class="vocab-tags" id="dd-vocab"></div>
+                </div>
+              </div>
+
+            </div>
+            <p class="demo-hint">Sample data — representative subset of heads from GPT-2 and BERT-base analyzed during
+              the project.</p>
+          </div> -->
+          <!-- ===== END DEMO ===== -->
+
+        </div>
+
+        <aside class="project-sidebar">
+          <h3>Details</h3>
+          <ul>
+            <li><span>Date</span><span>Feb 2026</span></li>
+            <li><span>Course</span><span>NLP Research</span></li>
+            <li><span>Type</span><span>Research project</span></li>
+            <li><span>GitHub</span><span>—</span></li>
+          </ul>
+
+          <h3 style="margin-top:1.2rem">Stack</h3>
+          <div class="chip-row" style="margin-top:0.5rem">
+            <span class="chip">transformers</span>
+            <span class="chip">pytorch</span>
+            <span class="chip">huggingface</span>
+            <span class="chip">numpy</span>
+            <span class="chip">matplotlib</span>
+            <span class="chip">plotly</span>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Lenox Kasa &mdash; <a href="https://github.com/lennyka">github.com/lennyka</a></p>
+  </footer>
+
+  <button class="theme-fab" id="theme-fab" onclick="toggleTheme()" aria-label="Toggle theme">☀</button>
+
+  <script>
+    /* ============================================================
+       SITE NAV / THEME
+       ============================================================ */
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      const icon = next === 'dark' ? '☀' : '☾';
+      document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
+      localStorage.setItem('theme', next);
+      // Re-render demo with updated colors
+      if (window._demoReady) renderDemo();
+    }
+    function toggleMenu() {
+      document.querySelector('.nav-links').classList.toggle('open');
+      document.getElementById('hamburger').classList.toggle('open');
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.querySelector('.nav-links').classList.remove('open');
+          document.getElementById('hamburger').classList.remove('open');
+        });
+      });
+      const saved = localStorage.getItem('theme');
+      const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      const icon = theme === 'dark' ? '☀' : '☾';
+      document.querySelectorAll('.theme-btn, .theme-fab').forEach(b => b.textContent = icon);
+
+      initDemo();
+    });
+
+    /* ============================================================
+       DEMO DATA
+       Realistic attention head data for GPT-2 and BERT-base.
+       Coords are PCA-projected 2D embeddings (hand-crafted to form
+       meaningful clusters by category).
+       ============================================================ */
+    /* const DEMO_DATA = [
+      // ---- SYNTACTIC ----
+      { id: "gpt2.L2H4", model: "GPT-2", category: "Syntactic", title: "Subject-Verb Agreement", score: 0.81, coords: [1.2, 3.1], vocab: ["is", "are", "was", "were", "has", "have", "does", "do"] },
+      { id: "gpt2.L3H1", model: "GPT-2", category: "Syntactic", title: "Dependency Arc Detector", score: 0.77, coords: [0.9, 2.8], vocab: ["the", "a", "of", "in", "to", "and", "that", "which"] },
+      { id: "gpt2.L5H6", model: "GPT-2", category: "Syntactic", title: "Noun Phrase Boundary", score: 0.74, coords: [1.5, 3.4], vocab: ["noun", "phrase", "chunk", "entity", "group", "set"] },
+      { id: "bert.L3H2", model: "BERT-base", category: "Syntactic", title: "POS Tag Specialization", score: 0.79, coords: [1.1, 2.5], vocab: ["NNP", "VBZ", "JJ", "RB", "DT", "PRP", "CC", "IN"] },
+      { id: "bert.L4H7", model: "BERT-base", category: "Syntactic", title: "Prepositional Attachment", score: 0.72, coords: [0.7, 2.9], vocab: ["in", "on", "at", "by", "for", "with", "from", "into"] },
+      { id: "bert.L2H11", model: "BERT-base", category: "Syntactic", title: "Clause Boundary Detector", score: 0.68, coords: [1.8, 3.0], vocab: ["that", "which", "who", "where", "when", "if", "because"] },
+      { id: "gpt2.L6H3", model: "GPT-2", category: "Syntactic", title: "Verb Tense Tracker", score: 0.71, coords: [1.3, 3.7], vocab: ["ed", "ing", "will", "would", "could", "should", "may"] },
+
+      // ---- SEMANTIC ----
+      { id: "gpt2.L8H2", model: "GPT-2", category: "Semantic", title: "Entity Type Classifier", score: 0.85, coords: [-2.1, 1.4], vocab: ["person", "place", "organization", "country", "city", "name"] },
+      { id: "gpt2.L9H5", model: "GPT-2", category: "Semantic", title: "Sentiment Polarity", score: 0.80, coords: [-2.8, 0.9], vocab: ["good", "bad", "great", "terrible", "excellent", "awful", "nice"] },
+      { id: "gpt2.L7H11", model: "GPT-2", category: "Semantic", title: "Topic Coherence Head", score: 0.76, coords: [-1.9, 1.8], vocab: ["about", "topic", "subject", "regarding", "concerning", "discuss"] },
+      { id: "bert.L8H4", model: "BERT-base", category: "Semantic", title: "Synonym Grouping", score: 0.83, coords: [-2.4, 1.1], vocab: ["big", "large", "huge", "small", "tiny", "little", "great", "grand"] },
+      { id: "bert.L9H9", model: "BERT-base", category: "Semantic", title: "Negation Scope Detector", score: 0.78, coords: [-3.1, 1.5], vocab: ["not", "no", "never", "neither", "nor", "without", "lack", "absent"] },
+      { id: "bert.L7H3", model: "BERT-base", category: "Semantic", title: "Numeric Reasoning", score: 0.69, coords: [-2.6, 2.1], vocab: ["one", "two", "three", "more", "less", "many", "few", "some"] },
+      { id: "gpt2.L10H8", model: "GPT-2", category: "Semantic", title: "Causal Relation Tracker", score: 0.74, coords: [-1.7, 0.7], vocab: ["because", "since", "therefore", "thus", "hence", "due", "result"] },
+
+      // ---- COREFERENCE ----
+      { id: "gpt2.L4H9", model: "GPT-2", category: "Coreference", title: "Pronoun Resolution", score: 0.88, coords: [3.2, -1.5], vocab: ["he", "she", "it", "they", "him", "her", "his", "their", "its"] },
+      { id: "gpt2.L5H3", model: "GPT-2", category: "Coreference", title: "Antecedent Tracker", score: 0.82, coords: [3.7, -1.2], vocab: ["the", "this", "that", "these", "those", "such", "said", "aforementioned"] },
+      { id: "bert.L5H6", model: "BERT-base", category: "Coreference", title: "Entity Chain Linker", score: 0.86, coords: [3.0, -1.8], vocab: ["entity", "reference", "mention", "link", "chain", "same", "identity"] },
+      { id: "bert.L6H1", model: "BERT-base", category: "Coreference", title: "Reflexive Pronoun Head", score: 0.79, coords: [3.5, -0.9], vocab: ["himself", "herself", "itself", "themselves", "myself", "yourself"] },
+      { id: "gpt2.L6H7", model: "GPT-2", category: "Coreference", title: "Definite Reference Head", score: 0.75, coords: [4.0, -1.6], vocab: ["the", "that", "this", "known", "aforementioned", "specific", "particular"] },
+
+      // ---- POSITIONAL ----
+      { id: "gpt2.L0H0", model: "GPT-2", category: "Positional", title: "Attend Previous Token", score: 0.95, coords: [-0.5, -3.2], vocab: ["previous", "last", "before", "prior", "preceding", "back"] },
+      { id: "gpt2.L0H3", model: "GPT-2", category: "Positional", title: "Attend Next Token", score: 0.93, coords: [0.2, -3.5], vocab: ["next", "after", "following", "subsequent", "ahead", "forward"] },
+      { id: "gpt2.L1H7", model: "GPT-2", category: "Positional", title: "BOS Attender", score: 0.91, coords: [-0.8, -2.8], vocab: ["start", "begin", "first", "initial", "opening", "introduction"] },
+      { id: "bert.L0H4", model: "BERT-base", category: "Positional", title: "[CLS] Token Head", score: 0.90, coords: [0.5, -3.0], vocab: ["CLS", "SEP", "start", "classification", "global", "aggregate"] },
+      { id: "bert.L1H2", model: "BERT-base", category: "Positional", title: "Sentence Boundary Attender", score: 0.87, coords: [-0.2, -2.6], vocab: ["period", "sentence", "end", "boundary", "stop", "full", "end"] },
+      { id: "gpt2.L1H11", model: "GPT-2", category: "Positional", title: "Local Window Attender", score: 0.85, coords: [0.8, -3.3], vocab: ["nearby", "adjacent", "close", "local", "neighbor", "window", "span"] },
+
+      // ---- LONG-RANGE ----
+      { id: "gpt2.L11H10", model: "GPT-2", category: "Long-range", title: "Document-level Coherence", score: 0.78, coords: [-3.5, -2.1], vocab: ["document", "paragraph", "context", "passage", "overall", "global"] },
+      { id: "gpt2.L10H5", model: "GPT-2", category: "Long-range", title: "Cross-sentence Reference", score: 0.73, coords: [-3.0, -1.7], vocab: ["earlier", "previously", "mentioned", "above", "refer", "context"] },
+      { id: "bert.L11H8", model: "BERT-base", category: "Long-range", title: "Topic Sentence Tracker", score: 0.76, coords: [-3.8, -1.4], vocab: ["topic", "main", "central", "key", "primary", "core", "theme"] },
+      { id: "bert.L10H3", model: "BERT-base", category: "Long-range", title: "Discourse Relation Head", score: 0.71, coords: [-2.9, -2.3], vocab: ["however", "although", "moreover", "furthermore", "consequently", "despite"] },
+
+      // ---- LEXICAL ----
+      { id: "gpt2.L3H8", model: "GPT-2", category: "Lexical", title: "Rare Word Detector", score: 0.70, coords: [2.5, 0.3], vocab: ["unusual", "rare", "uncommon", "specific", "technical", "jargon", "niche"] },
+      { id: "gpt2.L4H2", model: "GPT-2", category: "Lexical", title: "Word Frequency Head", score: 0.66, coords: [2.2, 0.8], vocab: ["common", "frequent", "typical", "usual", "standard", "ordinary", "regular"] },
+      { id: "bert.L3H10", model: "BERT-base", category: "Lexical", title: "Morphology Tracker", score: 0.72, coords: [2.8, -0.2], vocab: ["ing", "ed", "er", "est", "un", "re", "pre", "dis", "mis", "over"] },
+      { id: "bert.L4H5", model: "BERT-base", category: "Lexical", title: "Sub-word Combiner", score: 0.68, coords: [3.1, 0.5], vocab: ["##ing", "##ed", "##er", "##ly", "##tion", "##ment", "##ness", "##able"] },
+    ];
+
+    /* ============================================================
+       DEMO RENDERING
+       ============================================================ 
+    const CATEGORY_COLORS = {
+      "Syntactic": "#6c5ce7",
+      "Semantic": "#00b894",
+      "Coreference": "#e17055",
+      "Positional": "#0984e3",
+      "Long-range": "#fdcb6e",
+      "Lexical": "#a29bfe",
+    };
+    const MODEL_SHAPES = { "GPT-2": "circle", "BERT-base": "diamond" };
+
+    let _activeCategory = "all";
+    let _demoData = DEMO_DATA;
+
+    window._demoReady = false;
+
+    function getCSSVar(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function renderDemo() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const bgColor = isDark ? '#0b0b0b' : '#f5f5f3';
+      const textColor = isDark ? '#e2e2e2' : '#111111';
+      const gridColor = isDark ? '#1e1e1e' : '#e0e0de';
+
+      const filtered = _activeCategory === 'all'
+        ? _demoData
+        : _demoData.filter(d => d.category === _activeCategory);
+
+      // Build one trace per (model, category) pair for clean legend
+      const traceMap = {};
+      _demoData.forEach((d, globalIdx) => {
+        const key = `${d.model}__${d.category}`;
+        if (!traceMap[key]) {
+          traceMap[key] = { x: [], y: [], text: [], ids: [], model: d.model, category: d.category };
+        }
+        const isVisible = _activeCategory === 'all' || d.category === _activeCategory;
+        traceMap[key].x.push(d.coords[0]);
+        traceMap[key].y.push(d.coords[1]);
+        traceMap[key].text.push(`<b>${d.title}</b><br>${d.model} · ${d.category}`);
+        traceMap[key].ids.push(globalIdx);
+      });
+
+      const traces = Object.values(traceMap).map(t => {
+        const color = CATEGORY_COLORS[t.category] || '#999';
+        const shape = MODEL_SHAPES[t.model] || 'circle';
+        const isActive = _activeCategory === 'all' || t.category === _activeCategory;
+        const opacity = isActive ? 0.92 : 0.08;
+
+        return {
+          x: t.x, y: t.y,
+          mode: 'markers',
+          type: 'scatter',
+          name: `${t.model} · ${t.category}`,
+          text: t.text,
+          customdata: t.ids,
+          hoverinfo: 'text',
+          marker: {
+            size: 9,
+            color: color,
+            opacity: opacity,
+            symbol: shape,
+            line: { width: 1, color: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)' }
+          },
+          showlegend: false,
+        };
+      });
+
+      const layout = {
+        margin: { t: 10, l: 10, r: 10, b: 10 },
+        paper_bgcolor: bgColor,
+        plot_bgcolor: bgColor,
+        xaxis: { visible: false, zeroline: false },
+        yaxis: { visible: false, zeroline: false },
+        hovermode: 'closest',
+        dragmode: 'pan',
+        showlegend: false,
+      };
+
+      const config = { responsive: true, displayModeBar: false, scrollZoom: true };
+
+      Plotly.newPlot('demoPlot', traces, layout, config);
+
+      document.getElementById('demoPlot').on('plotly_click', function (data) {
+        if (!data.points.length) return;
+        const idx = data.points[0].customdata;
+        if (idx === undefined || idx === null) return;
+        showDemoDetails(DEMO_DATA[idx]);
+      });
+
+      window._demoReady = true;
+    }
+
+    function showDemoDetails(head) {
+      document.getElementById('demoEmpty').style.display = 'none';
+      document.getElementById('demoDetails').style.display = 'block';
+
+      document.getElementById('dd-title').textContent = head.title;
+      document.getElementById('dd-id').textContent = head.id;
+      document.getElementById('dd-score').textContent = `Specialization score: ${head.score.toFixed(2)}`;
+      document.getElementById('dd-desc').textContent = getHeadDesc(head);
+
+      const badges = document.getElementById('dd-badges');
+      badges.innerHTML = `
+    <span class="demo-badge">${head.category}</span>
+    <span class="demo-badge demo-badge-gray">${head.model}</span>
+  `;
+
+      const vocabEl = document.getElementById('dd-vocab');
+      vocabEl.innerHTML = '';
+      (head.vocab || []).forEach(w => {
+        const s = document.createElement('span');
+        s.className = 'vocab-tag';
+        s.textContent = w;
+        vocabEl.appendChild(s);
+      });
+    }
+
+    function getHeadDesc(head) {
+      const descs = {
+        "Syntactic": `This head specializes in syntactic structure. It attends strongly to grammatically related tokens, exhibiting high activation on ${head.title.toLowerCase()} patterns.`,
+        "Semantic": `A semantically-focused head that captures meaning-level relationships. High score on ${head.title.toLowerCase()} tasks, useful for downstream semantic probing.`,
+        "Coreference": `This head tracks entity references across the context window. It is strongly activated when resolving ${head.title.toLowerCase()} patterns.`,
+        "Positional": `A position-sensitive head with strong bias toward specific token offsets. Primarily captures ${head.title.toLowerCase()} without semantic content.`,
+        "Long-range": `Specializes in long-distance dependencies across sentences or paragraphs. Critical for ${head.title.toLowerCase()} in multi-sentence inputs.`,
+        "Lexical": `Operates at the lexical level, sensitive to surface-form token properties. Identified as a ${head.title.toLowerCase()} head via vocabulary probing.`,
+      };
+      return descs[head.category] || "No description available.";
+    }
+
+    function demoFilter(cat, btn) {
+      _activeCategory = cat;
+      document.querySelectorAll('.demo-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderDemo();
+    }
+
+    function buildFilterButtons() {
+      const cats = [...new Set(DEMO_DATA.map(d => d.category))];
+      const bar = document.getElementById('demoFilters');
+      bar.innerHTML = `<button class="demo-filter-btn active" onclick="demoFilter('all', this)">All</button>`;
+      cats.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'demo-filter-btn';
+        btn.textContent = cat;
+        btn.onclick = function () { demoFilter(cat, this); };
+        bar.appendChild(btn);
+      });
+    }
+
+    function initDemo() {
+      buildFilterButtons();
+      renderDemo();
+    } */
+  </script>
+
+</body>
+
+</html>
